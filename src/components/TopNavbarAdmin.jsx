@@ -54,7 +54,31 @@ const TopNavbar = ({ routes }) => {
             >
               Data User
             </Nav.Link>
-            <NavDropdown
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/admin/showDataProduk")}
+            >
+              Data Produk
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/admin/showDataResep")}
+            >
+              Data Resep
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/admin/showDataBahanBaku")}
+            >
+              Data Bahan Baku
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/admin/showDataHampers")}
+            >
+              Data Hampers
+            </Nav.Link>
+            {/* <NavDropdown
               className="mx-3"
               title="Layanan"
               id="basic-nav-dropdown"
@@ -85,7 +109,7 @@ const TopNavbar = ({ routes }) => {
               <NavDropdown.Item onClick={() => navigate("/admin/createDataJenisPengambilan")}>
                 Create Jenis Pengambilan
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
             <Nav className="me-auto"></Nav>
             <div className="d-flex align-items-end text-end ms-auto justify-content-center">
               <strong>ADMIN</strong>
