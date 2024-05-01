@@ -6,13 +6,7 @@ import RegisterPage from "../pages/auth/RegisterPage";
 import DashboardPage from "../pages/DashboardPage";
 import Profile from "../pages/ProfilePage";
 import ProtectedRoutes from "./ProtectedRoutes";
-import Wallet from "../pages/WalletPage";
 import TopNavbar from "../components/TopNavbar";
-import Payment from "../pages/transaksiLaundry/PaymentPage";
-import Order from "../pages/transaksiLaundry/OrderPage";
-import History from "../pages/HistoryPage";
-import OurTeam from "../pages/greeting/OurTeamPage";
-import About from "../pages/greeting/AboutPage";
 import AdminLayout from "../layouts/AdminLayout";
 
 import Footer from "../components/footer";
@@ -48,26 +42,26 @@ const router = createBrowserRouter([
         path: "/register",
         element: <RegisterPage />,
       },
-      {
-        path: "/about",
-        element: (
-          <div className="">
-            <TopNavbar />
-            <About />
-            <Footer></Footer>
-          </div>
-        ),
-      },
-      {
-        path: "/ourteam",
-        element: (
-          <div className="">
-            <TopNavbar />
-            <OurTeam />
-            <Footer></Footer>
-          </div>
-        ),
-      },
+      // {
+      //   path: "/about",
+      //   element: (
+      //     <div className="">
+      //       <TopNavbar />
+      //       <About />
+      //       <Footer></Footer>
+      //     </div>
+      //   ),
+      // },
+      // {
+      //   path: "/ourteam",
+      //   element: (
+      //     <div className="">
+      //       <TopNavbar />
+      //       <OurTeam />
+      //       <Footer></Footer>
+      //     </div>
+      //   ),
+      // },
     ],
   },
 
@@ -87,26 +81,26 @@ const router = createBrowserRouter([
         path: "/user/profile",
         element: <Profile />,
       },
-      {
-        path: "/user/wallet",
-        element: <Wallet />,
-      },
-      {
-        path: "/user/payment",
-        element: <Payment />,
-      },
-      {
-        path: "/user/order",
-        element: <Order />,
-      },
-      {
-        path: "/user/history",
-        element: <History />,
-      },
-      {
-        path: "/user/test",
-        element: <tampilImage/>
-      }
+      // {
+      //   path: "/user/wallet",
+      //   element: <Wallet />,
+      // },
+      // {
+      //   path: "/user/payment",
+      //   element: <Payment />,
+      // },
+      // {
+      //   path: "/user/order",
+      //   element: <Order />,
+      // },
+      // {
+      //   path: "/user/history",
+      //   element: <History />,
+      // },
+      // {
+      //   path: "/user/test",
+      //   element: <tampilImage/>
+      // }
     ],
   },
   {
