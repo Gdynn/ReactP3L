@@ -1,0 +1,13 @@
+.edit-col,
+.edit-col:hover {
+  color: blue; /* Warna biru */
+  text-decoration: underline; /* Efek garis bawah saat dihover */
+  cursor: pointer; /* Mengubah bentuk kursor menjadi jari (pointer) saat dihover */
+}
+
+.delete-col,
+.delete-col:hover {
+  color: red; /* Warna merah */
+  text-decoration: underline; /* Efek garis bawah saat dihover */
+  cursor: pointer; /* Mengubah bentuk kursor menjadi jari (pointer) saat dihover */
+}

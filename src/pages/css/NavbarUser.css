@@ -1,0 +1,170 @@
+.ut {
+
+    padding: 0px;
+}
+
+.app-bar {
+    width: 100%;
+    height: 80px;
+    background-color: #A2D5F2;
+    align-items: center;
+    margin: 0px;
+}
+
+.footer {
+    width: 100%;
+    height: auto;
+
+}
+
+.app-left {
+    text-align: start;
+    padding-left: 30px;
+}
+
+.img-appbar-logo {
+    margin-left: 30px;
+    height: 40px;
+}
+
+.history {
+    font-size: 14px;
+    margin: auto 20px auto 0px;
+    font-weight: bold;
+}
+
+.sign-in,
+.notif {
+    margin: auto 20px auto 0px;
+}
+
+
+.bg-2 {
+    margin-top: 100px;
+    height: 300px;
+    border-top-left-radius: 150px;
+    border-top-right-radius: 150px;
+    background-color: #A2D5F2;
+}
+
+.profile-hp {
+    height: 35px;
+    width: 35px;
+    overflow: hidden;
+    border-radius: 100%;
+
+    margin: auto 12px auto 0px;
+}
+
+.profile-hp img {
+    height: 100%;
+    object-fit: cover;
+    margin-top: -16px;
+}
+
+.nav-content {
+    font-size: 14px;
+    margin: auto 20px auto 0px;
+    font-weight: bold;
+}
+
+.sign-in,
+.notif {
+    margin: auto 20px auto 10px;
+}
+
+.bg-2 {
+    margin-top: 100px;
+    height: 300px;
+    border-top-left-radius: 150px;
+    border-top-right-radius: 150px;
+    background-color: #A2D5F2;
+}
+
+.profile {
+    height: 35px;
+    width: 35px;
+    overflow: hidden;
+    border-radius: 100%;
+    margin: auto 12px auto 10px;
+}
+
+.profile img {
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.email {
+    font-size: 14px;
+    color: grey;
+}
+
+#pf {
+    display: none;
+}
+
+.navbar-nav a,
+.nav-item a {
+    font-size: 16px;
+    font-weight: 500;
+    color: #07689F;
+}
+
+
+.email {
+    font-size: 14px;
+    color: grey;
+}
+
+
+.menu {
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+    color: #262626;
+}
+
+.menu:before {
+    top: 25px;
+    content: '';
+    width: 0;
+    height: 5px;
+    background: #00bcd4;
+    position: absolute;
+    left: 0;
+    transition: .5s;
+}
+
+.navbar-nav li:hover a:before {
+    width: 70%;
+    transform: translateX(0%);
+    transform: translateY(100%);
+}
+
+
+.in-notif {
+    display: inline;
+    position: relative;
+    z-index: 10000;
+}
+
+
+.show-notif {
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 10px;
+    right: 15vh;
+    top: 9vh;
+    height: 300px;
+    width: 200px;
+    padding: 15px;
+    overflow: auto;
+    scroll-snap-type: y mandatory;
+}
+
+.box-notif {
+    background-color: transparent;
+    height: 100vh;
+    width: 100vw;
+}

@@ -1,0 +1,14 @@
+.cont {
+    padding: 20px 20px 20px 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 6px 1px rgb(200, 200, 200);
+}
+
+.cont-wallet {
+    padding: 20px 20px 20px 20px;
+    /* width: 80%; */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 6px 1px rgb(200, 200, 200);
+}

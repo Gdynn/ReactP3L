@@ -1,0 +1,75 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.steps {
+    max-width: 45%;
+}
+
+.cont-table {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 6px 1px rgb(200, 200, 200);
+}
+
+.cont-payment {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 6px 1px rgb(200, 200, 200);
+    padding: 5vh 5vh 5vh 5vh;
+    margin-top: 5vh;
+}
+
+.cont-nav {
+    max-width: 70%;
+}
+
+.btn-next {
+    background-color: #014E87;
+    color: white;
+}
+
+.btn-back {
+    color: red;
+    background-color: white;
+    width: 80px;
+}
+
+.icon {
+    font-size: 8vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    width: 50%;
+}
+
+.col a {
+    text-decoration: none;
+    color: #000;
+}
+
+.active-wallet .icon {
+    color: #014E87;
+}
+
+.active-card .icon {
+    color: #014E87;
+}
+
+.active-coins .icon {
+    color: #014E87;
+}
+
+#walletIcon:hover .icon {
+    color: #0469b6;
+}
+
+#cardIcon:hover .icon {
+    color: #0469b6;
+}
+
+#coinIcon:hover .icon {
+    color: #0469b6;
+}
