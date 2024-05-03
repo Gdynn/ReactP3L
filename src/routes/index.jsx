@@ -8,12 +8,24 @@ import Profile from "../pages/ProfilePage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import TopNavbar from "../components/TopNavbar";
 import AdminLayout from "../layouts/AdminLayout";
+import MOLayout from "../layouts/MOLayout";
 
 import Footer from "../components/footer";
 
 import AdminShowUser from "../pages/admin/user/showDataUser";
 import AdminCreateUser from "../pages/admin/user/createUserPage";
 import AdminUpdateUser from "../pages/admin/user/updateUserPage";
+
+import AdminUpdateLayanan from "../pages/admin/layanan/updateLayananPage";
+import CreateLayanan from "../pages/admin/layanan/createLayananPage";
+import ShowDataLayanan from "../pages/admin/layanan/showDataLayananPage";
+
+import ShowDataProduk from "../pages/admin/produk/showDataProdukPage";
+import CreateProduk from "../pages/admin/produk/createProdukPage";
+import UpdateProdukPage from "../pages/admin/produk/updateProdukPage";
+import ShowDataHampers from "../pages/admin/hampers/showDataHampersPage";
+import CreateHampers from "../pages/admin/hampers/createHampersPage";
+import UpdateHampersPage from "../pages/admin/hampers/updateHampersPage";
 
 const router = createBrowserRouter([
   {
@@ -119,8 +131,62 @@ const router = createBrowserRouter([
         path: "/admin/showDataUser",
         element: <AdminShowUser />,
       },
+      {
+        path: "/admin/showDataProduk",
+        element: <ShowDataProduk />,
+      },
+      {
+        path: "/admin/createProduk",
+        element: <CreateProduk />,
+      },
+      {
+        path: "/admin/updateProduk",
+        element: <UpdateProdukPage />,
+      },
+      {
+        path: "/admin/showDataHampers",
+        element: <ShowDataHampers />,
+      },
+      {
+        path: "/admin/createHampers",
+        element: <CreateHampers />,
+      },
+      {
+        path: "/admin/updateHampers",
+        element: <UpdateHampersPage />,
+      },
+      {
+        path: "/admin/createLayanan",
+        element: <CreateLayanan />,
+      },
+      {
+        path: "/admin/showDataLayanan",
+        element: <ShowDataLayanan />,
+      },
+      {
+        path: "/admin/updateLayanan",
+        element: <AdminUpdateLayanan />,
+      },
     ],
   },
+  {
+    path: "/mo",
+    element: (
+      <ProtectedRoutes>
+        <MOLayout />
+      </ProtectedRoutes>
+    ),
+    children: [
+      {
+        path: "/mo",
+        element: <AdminShowUser />,
+      },
+      {
+        path: "/mo/showDataUser",
+        element: <AdminShowUser />,
+      },
+    ],
+  }
 ]);
 const AppRouter = () => {
   return (

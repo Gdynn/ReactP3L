@@ -1,23 +1,14 @@
 import { React, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import AdminPageBackground from "../adminPageBackground";
-// import SidenavCustom from "../admin/sideNav";
 import { Button, Form, Modal } from "react-bootstrap";
-// import { UpdateUser } from "../../api/apiUsers";
-import { UpdateJenisPengambilan } from "../../../apiExample/apiJenisPengambilan";
 import { toast } from "react-toastify";
+import { UpdateHampers } from "../../../api/apiHampers";
 
-const UpdateJenisPengambilanPage = ({ jenisPengambilan, onClose }) => {
+
+const UpdateHampersPage = ({ hampers, onClose }) => {
   const [show, setShow] = useState(false);
-  const [data, setData] = useState(jenisPengambilan);
+  const [data, setData] = useState(hampers);
   const [isPending, setIsPending] = useState(false);
 
-  const logout = () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("jenisPengambilan");
-    navigate("/");
-  };
   const handleClose = () => {
     setShow(false);
     onClose();
@@ -25,15 +16,20 @@ const UpdateJenisPengambilanPage = ({ jenisPengambilan, onClose }) => {
   const handleShow = () => {
     setShow(true);
     console.log("tes: ", data);
-  }
+  };
+  // const handleChange = (event) => {
+  //   setData({ ...data, [event.target.name]: event.target.value });
+  // };
   const handleChange = (event) => {
-    setData({ ...data, [event.target.name]: event.target.value });
+    const { name, value } = event.target;
+    setData({ ...data, [name]: value });
   };
   const submitData = (event) => {
     event.preventDefault();
     setIsPending(true);
     console.log("tes: ", data);
-    UpdateJenisPengambilan(data)
+    console.log("tes id: ", data.ID_HAMPERS);
+    UpdateHampers(data.ID_HAMPERS, data)
       .then((response) => {
         setIsPending(false);
         toast.success(response.message);
@@ -48,7 +44,11 @@ const UpdateJenisPengambilanPage = ({ jenisPengambilan, onClose }) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow} style={{ marginRight: '8px'}}>
+      <Button
+        variant="primary"
+        onClick={handleShow}
+        style={{ marginRight: "8px" }}
+      >
         Update
       </Button>
       <Modal
@@ -66,18 +66,19 @@ const UpdateJenisPengambilanPage = ({ jenisPengambilan, onClose }) => {
               borderRadius: "10px",
             }}
           >
-            <h1 className="mb-3 text-center">Update Jenis Pengambilan</h1>
+            <h1 className="mb-3 text-center">Update Hampers</h1>
+            <div className="row mb-2"></div>
             <div className="row mb-2">
               <div className="col-md-12">
-                <label className="d-flex">Nama Jenis Pengambilan</label>
+                <label className="d-flex">Nama Hampers</label>
                 <input
                   type="text"
-                  label="Nama Jenis Pengambilan"
-                  name="nama_jenis_pengambilan"
+                  label="Nama Hampers"
+                  name="NAMA_HAMPERS"
                   onChange={handleChange}
-                  placeholder="Masukkan Nama Jenis Pengambilan"
+                  placeholder="Masukkan Nama Hampers"
                   className="form-control"
-                  value={data?.nama_jenis_pengambilan}
+                  value={data?.NAMA_HAMPERS}
                 />
               </div>
             </div>
@@ -85,13 +86,26 @@ const UpdateJenisPengambilanPage = ({ jenisPengambilan, onClose }) => {
               <div className="col-md-12">
                 <label className="d-flex">Harga</label>
                 <input
-                  type="text"
+                  type="number"
                   label="Harga"
-                  name="harga"
+                  name="HARGA"
                   onChange={handleChange}
                   placeholder="Masukkan Harga"
                   className="form-control"
-                  value={data?.harga}
+                  value={data?.HARGA}
+                />
+              </div>
+            </div>
+            <div className="row mb-2">
+              <div className="col-md-12">
+                <label className="d-flex">Keterangan</label>
+                <textarea
+                  label="Keterangan"
+                  name="KETERANGAN"
+                  onChange={handleChange}
+                  placeholder="Masukkan Keterangan"
+                  className="form-control"
+                  value={data?.KETERANGAN}
                 />
               </div>
             </div>
@@ -118,4 +132,4 @@ const UpdateJenisPengambilanPage = ({ jenisPengambilan, onClose }) => {
   );
 };
 
-export default UpdateJenisPengambilanPage;
+export default UpdateHampersPage;
