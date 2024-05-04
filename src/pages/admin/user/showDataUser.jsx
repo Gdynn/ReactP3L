@@ -114,10 +114,10 @@ const ShowDataUser = () => {
                   <thead>
                     <tr>
                       <th scope="col">No</th>
-                      <th scope="col">Nama</th>
+                      <th scope="col">Username</th>
                       <th scope="col">Email</th>
-                      <th scope="col">Alamat</th>
                       <th scope="col">Nomor Telepon</th>
+                      <th scope="col">Type Pengguna</th>
                       <th scope="col">Edit</th>
                       <th scope="col">Delete</th>
                     </tr>
@@ -126,10 +126,10 @@ const ShowDataUser = () => {
                     {users.map((user, index) => (
                       <tr key={user.id}>
                         <th scope="row">{index + 1}</th>
-                        <td>{user.fullname}</td>
+                        <td>{user.username}</td>
                         <td>{user.email}</td>
-                        <td>{user.alamat}</td>
-                        <td>{user.no_telp}</td>
+                        <td>{user.notelp}</td>
+                        <td>{user.type_pengguna}</td>
                         <td>
                           <UpdateUserAccount user={user} onClose={showUser} />
                         </td>

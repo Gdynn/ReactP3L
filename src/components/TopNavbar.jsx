@@ -53,7 +53,8 @@ const TopNavbar = ({ routes }) => {
         <Navbar fixed="top" collapseOnSelect expand="lg" className="topNav">
           <Container>
             <Navbar.Brand>
-              <img src={logo} alt="" style={{ height: "40px" }} />
+              {/* <img src={logo} alt="" style={{ height: "40px" }} /> */}
+              <h3>ATMA KITCHEN</h3>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">

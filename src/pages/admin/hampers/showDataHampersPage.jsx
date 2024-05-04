@@ -4,36 +4,39 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import AdminPageBackground from "../adminPageBackground";
 import { Button, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { DeleteHampers, GetAllHampers } from "../../../api/apiHampers";
 import "../css/ShowDataUser.css";
-import { DeleteItem, GetAllItems } from "../../../apiExample/apiItem";
-import UpdateItemLaundry from "./updateItemPage";
+import { useNavigate } from "react-router-dom";
+import UpdateHampersPage from "./updateHampersPage";
 
-const ShowDataItem = () => {
+
+const ShowDataHampers = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [itemList, setItemList] = useState([]);
+  const [hampersd, setHampers] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [originalData, setOriginalData] = useState([]);
 
-  const deleteItem = (id) => {
+  const deleteHampers = (id) => {
     setIsPending(true);
-    DeleteItem(id)
+    DeleteHampers(id)
       .then((response) => {
         // setIsPending(false);
         toast.success(response.message);
-        showItem();
+        showHampers();
       })
       .catch((err) => {
         console.log(err);
         setIsPending(false);
-        showItem();
+        showHampers();
       });
   };
-  const showItem = () => {
+  const showHampers = () => {
     setIsLoading(true);
-    GetAllItems()
+    GetAllHampers()
       .then((response) => {
-        setItemList(response);
+        setHampers(response);
         setOriginalData(response);
         setIsLoading(false);
       })
@@ -43,19 +46,20 @@ const ShowDataItem = () => {
       });
   };
   useEffect(() => {
-    showItem();
+    showHampers();
   }, []);
-  const [selectedOption, setSelectedOption] = useState("option1");
 
   const handleSearch = () => {
     setIsLoading(true);
     if (searchInput === "") {
-      setItemList(originalData);
+      setHampers(originalData);
     } else {
-      const filteredData = originalData.filter((item) =>
-        item.nama_item.toLowerCase().includes(searchInput.toLowerCase())
+      const filteredData = originalData.filter((hampers) =>
+        hampers.NAMA_HAMPERS
+          .toLowerCase()
+          .includes(searchInput.toLowerCase())
       );
-      setItemList(filteredData);
+      setHampers(filteredData);
     }
     setIsLoading(false);
   };
@@ -73,7 +77,7 @@ const ShowDataItem = () => {
                 backgroundColor: "rgba(0, 0, 0, 0.4)",
               }}
             >
-              Show Data Item
+              Show Data Hampers
             </h1>
             <div className="row">
               <div className="col-8">
@@ -106,30 +110,38 @@ const ShowDataItem = () => {
                   </div>
                 </div>
               </div>
-
+              <div className="col-4 d-flex justify-content-end">
+                <Button
+                  variant="success"
+                  onClick={() => navigate("/admin/createHampers")}
+                  style={{ width: "100px" }}
+                >
+                  Create
+                </Button>
+              </div>
               <div className="table-responsive mt-3">
                 <table className="table table-hover">
                   <thead>
                     <tr>
                       <th scope="col">No</th>
-                      <th scope="col">Nama Item</th>
+                      <th scope="col">Nama Hampers</th>
+                      <th scope="col">Keterangan</th>
                       <th scope="col">Harga</th>
-                      <th scope="col">Deskripsi</th>
                       <th scope="col">Edit</th>
                       <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {itemList.map((item, index) => (
-                      <tr key={item.id}>
+                    {hampersd.map((hampers, index) => (
+                      <tr key={hampers.id}>
                         <th scope="row">{index + 1}</th>
-                        <td>{item.nama_item}</td>
-                        <td>{item.harga}</td>
-                        <td>{item.deskripsi}</td>
+                        <td>{hampers.NAMA_HAMPERS}</td>
+                        <td>{hampers.KETERANGAN}</td>
+                        <td>{hampers.HARGA}</td>
                         <td>
-                          <UpdateItemLaundry
-                            item={item}
-                            onClose={showItem}
+                          <UpdateHampersPage
+                            hampers={hampers}
+                            onClose={showHampers}
                           />
                         </td>
                         <td className="delete-col">
@@ -150,7 +162,7 @@ const ShowDataItem = () => {
                           ) : (
                             <Button
                               variant="danger"
-                              onClick={() => deleteItem(item.id_item)}
+                              onClick={() => deleteHampers(hampers.ID_HAMPERS)}
                               style={{ marginRight: "7px", width: "70px" }}
                             >
                               Hapus
@@ -170,4 +182,4 @@ const ShowDataItem = () => {
   );
 };
 
-export default ShowDataItem;
+export default ShowDataHampers;

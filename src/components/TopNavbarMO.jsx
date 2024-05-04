@@ -51,53 +51,19 @@ const TopNavbar = ({ routes }) => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav.Link
               className="mx-2"
-              onClick={() => navigate("/admin/showDataUser")}
+              onClick={() => navigate("/mo/showDataUser")}
             >
               Data User
             </Nav.Link>
             <Nav.Link
               className="mx-2"
-              onClick={() => navigate("/admin/showDataProduk")}
+              onClick={() => navigate("/mo/showDataPembelianBahanBaku")}
             >
-              Data Produk
+              Data Pembelian Bahan Baku
             </Nav.Link>
-            <Nav.Link
-              className="mx-2"
-              onClick={() => navigate("/admin/showDataResep")}
-            >
-              Data Resep
-            </Nav.Link>
-            <Nav.Link
-              className="mx-2"
-              onClick={() => navigate("/admin/showDataBahanBaku")}
-            >
-              Data Bahan Baku
-            </Nav.Link>
-            <Nav.Link
-              className="mx-2"
-              onClick={() => navigate("/admin/showDataHampers")}
-            >
-              Data Hampers
-            </Nav.Link>
-            <NavDropdown
-              className="mx-3"
-              title="Layanan"
-              id="basic-nav-dropdown"
-            >
-              <NavDropdown.Item
-                onClick={() => navigate("/admin/showDataLayanan")}
-              >
-                Show Data Layanan
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                onClick={() => navigate("/admin/createLayanan")}
-              >
-                Create Layanan
-              </NavDropdown.Item>
-            </NavDropdown>
             <Nav className="me-auto"></Nav>
             <div className="d-flex align-items-end text-end ms-auto justify-content-center">
-              <strong>ADMIN</strong>
+              <strong>Manager Operasional</strong>
             </div>
             <Button
               className="mx-2"

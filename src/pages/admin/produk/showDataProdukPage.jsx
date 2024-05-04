@@ -2,78 +2,65 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import AdminPageBackground from "../adminPageBackground";
-// import SidenavCustom from "../admin/sideNav";
 import { Button, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
-// import { DeleteUser, GetAllUser } from "../../api/apiUsers";
-import {
-  GetAllJenisPengambilan,
-  DeleteJenisPengambilan,
-  UpdateJenisPengambilan,
-} from "../../../apiExample/apiJenisPengambilan";
-import { Link } from "react-router-dom";
+import { DeleteProduk, GetAllProduk } from "../../../api/apiProduk";
 import "../css/ShowDataUser.css";
-import UpdateJenisPengambilanPage from "./UpdateJenisPengambilan";
-// import UpdateUserAccount from "./updateUserPage";
+import { useNavigate } from "react-router-dom";
+import UpdateProdukPage from "./updateProdukPage";
+// import UpdateLayananLaundry from "./updateLayananPage";
 
-const ShowDataJenisPengambilan = () => {
+
+const ShowDataProduk = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [jenisPengambilans, setJenisPengambilans] = useState([]);
+  const [produks, setProduk] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [originalData, setOriginalData] = useState([]);
 
-  const deleteJenisPengambilan = (id) => {
+  const deleteProduk = (id) => {
     setIsPending(true);
-    // toast.success(response);
-    DeleteJenisPengambilan(id)
+    DeleteProduk(id)
       .then((response) => {
-        setIsPending(false);
-        // toast.success(response.message);
-        showJenisPengambilan();
+        // setIsPending(false);
+        toast.success(response.message);
+        showProduk();
       })
       .catch((err) => {
         console.log(err);
         setIsPending(false);
-        toast.dark(err.message);
+        showProduk();
       });
   };
-  const showJenisPengambilan = () => {
+  const showProduk = () => {
     setIsLoading(true);
-    GetAllJenisPengambilan()
+    GetAllProduk()
       .then((response) => {
-        setJenisPengambilans(response);
+        setProduk(response);
         setOriginalData(response);
         setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
-        setOriginalData(response);
         setIsLoading(false);
       });
   };
   useEffect(() => {
-    showJenisPengambilan();
+    showProduk();
   }, []);
-  const [selectedOption, setSelectedOption] = useState("option1");
-
-  const logout = () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
-    navigate("/");
-  };
 
   const handleSearch = () => {
     setIsLoading(true);
     if (searchInput === "") {
-      setJenisPengambilans(originalData);
+      setProduk(originalData);
     } else {
-      const filteredData = originalData.filter((jenisPengambilan) =>
-        jenisPengambilan.nama_jenis_pengambilan
+      const filteredData = originalData.filter((produk) =>
+        produk.NAMA_PRODUK
           .toLowerCase()
           .includes(searchInput.toLowerCase())
       );
-      setJenisPengambilans(filteredData);
+      setProduk(filteredData);
     }
     setIsLoading(false);
   };
@@ -91,7 +78,7 @@ const ShowDataJenisPengambilan = () => {
                 backgroundColor: "rgba(0, 0, 0, 0.4)",
               }}
             >
-              Show Data Jenis Pengambilan
+              Show Data Produk
             </h1>
             <div className="row">
               <div className="col-8">
@@ -124,28 +111,40 @@ const ShowDataJenisPengambilan = () => {
                   </div>
                 </div>
               </div>
-
+              <div className="col-4 d-flex justify-content-end">
+                <Button
+                  variant="success"
+                  onClick={() => navigate("/admin/createProduk")}
+                  style={{ width: "100px" }}
+                >
+                  Create
+                </Button>
+              </div>
               <div className="table-responsive mt-3">
                 <table className="table table-hover">
                   <thead>
                     <tr>
                       <th scope="col">No</th>
-                      <th scope="col">Nama Jenis Pengambilan</th>
+                      <th scope="col">Nama Produk</th>
+                      <th scope="col">Kuantitas</th>
                       <th scope="col">Harga</th>
+                      <th scope="col">Jenis Produk</th>
                       <th scope="col">Edit</th>
                       <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {jenisPengambilans.map((jenisPengambilan, index) => (
-                      <tr key={jenisPengambilan.id_jenis_pengambilan}>
+                    {produks.map((produk, index) => (
+                      <tr key={produk.id}>
                         <th scope="row">{index + 1}</th>
-                        <td>{jenisPengambilan.nama_jenis_pengambilan}</td>
-                        <td>{jenisPengambilan.harga}</td>
+                        <td>{produk.NAMA_PRODUK}</td>
+                        <td>{produk.KUANTITAS}</td>
+                        <td>{produk.HARGA}</td>
+                        <td>{produk.JENIS_PRODUK}</td>
                         <td>
-                          <UpdateJenisPengambilanPage
-                            jenisPengambilan={jenisPengambilan}
-                            onClose={showJenisPengambilan}
+                          <UpdateProdukPage
+                            produk={produk}
+                            onClose={showProduk}
                           />
                         </td>
                         <td className="delete-col">
@@ -166,11 +165,7 @@ const ShowDataJenisPengambilan = () => {
                           ) : (
                             <Button
                               variant="danger"
-                              onClick={() =>
-                                deleteJenisPengambilan(
-                                  jenisPengambilan.id_jenis_pengambilan
-                                )
-                              }
+                              onClick={() => deleteProduk(produk.ID_PRODUK)}
                               style={{ marginRight: "7px", width: "70px" }}
                             >
                               Hapus
@@ -190,4 +185,4 @@ const ShowDataJenisPengambilan = () => {
   );
 };
 
-export default ShowDataJenisPengambilan;
+export default ShowDataProduk;
