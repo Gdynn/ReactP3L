@@ -15,6 +15,10 @@ import AdminShowUser from "../pages/admin/user/showDataUser";
 import AdminCreateUser from "../pages/admin/user/createUserPage";
 import AdminUpdateUser from "../pages/admin/user/updateUserPage";
 
+import ShowDataResep from "../pages/admin/resep/showDataResep";
+import UpdateDataResep from "../pages/admin/resep/updateDataResep";
+import CreateDataResep from "../pages/admin/resep/createDataResep";
+
 const router = createBrowserRouter([
   {
     path: "*",
@@ -22,7 +26,6 @@ const router = createBrowserRouter([
   },
 
   {
-
     children: [
       {
         path: "/",
@@ -118,6 +121,18 @@ const router = createBrowserRouter([
       {
         path: "/admin/showDataUser",
         element: <AdminShowUser />,
+      },
+      {
+        path: "/admin/showDataResep",
+        element: <ShowDataResep />,
+      },
+      {
+        path: "/admin/CreateDataResep",
+        element: <CreateDataResep />,
+      },
+      {
+        path: "/admin/UpdateDataResep",
+        element: <UpdateDataResep />,
       },
     ],
   },
