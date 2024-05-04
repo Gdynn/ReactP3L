@@ -51,15 +51,15 @@ const TopNavbar = ({ routes }) => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav.Link
               className="mx-2"
-              onClick={() => navigate("/admin/showDataUser")}
+              onClick={() => navigate("/mo/showDataUser")}
             >
               Data User
             </Nav.Link>
             <Nav.Link
               className="mx-2"
-              onClick={() => navigate("/admin/showDataProduk")}
+              onClick={() => navigate("/mo/showDataPembelianBahanBaku")}
             >
-              Data Produk
+              Data Pembelian Bahan Baku
             </Nav.Link>
             <Nav className="me-auto"></Nav>
             <div className="d-flex align-items-end text-end ms-auto justify-content-center">

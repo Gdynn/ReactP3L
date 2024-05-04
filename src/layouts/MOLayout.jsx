@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 // import component
 import TopNavbarMO from "../components/TopNavbarMO";
-import SidenavCustom from "../pages/admin/sideNav";
-import TopNavbar from "../components/TopNavbar";
+// import SidenavCustom from "../pages/admin/sideNav";
+// import TopNavbar from "../components/TopNavbar";
 //mengatur route yang akan ditampilkan di navbar
 const routes = [
   {

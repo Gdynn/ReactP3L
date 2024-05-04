@@ -27,6 +27,10 @@ import ShowDataHampers from "../pages/admin/hampers/showDataHampersPage";
 import CreateHampers from "../pages/admin/hampers/createHampersPage";
 import UpdateHampersPage from "../pages/admin/hampers/updateHampersPage";
 
+import ShowDataPembelianBahanBaku from "../pages/mo/pembelianBahanBaku/showDataPembelianBahanBaku";
+import CreatePembelianBahanBaku from "../pages/mo/pembelianBahanBaku/createPembelianBahanBakuPage";
+import UpdatePembelianBahanBakuPage from "../pages/mo/pembelianBahanBaku/updatePembelianBahanBakuPage";
+
 const router = createBrowserRouter([
   {
     path: "*",
@@ -184,6 +188,18 @@ const router = createBrowserRouter([
       {
         path: "/mo/showDataUser",
         element: <AdminShowUser />,
+      },
+      {
+        path: "/mo/showDataPembelianBahanBaku",
+        element: <ShowDataPembelianBahanBaku />,
+      },
+      {
+        path: "/mo/createPembelianBahanBaku",
+        element: <CreatePembelianBahanBaku />,
+      },
+      {
+        path: "/mo/updatePembelianBahanBaku",
+        element: <UpdatePembelianBahanBakuPage />,
       },
     ],
   }
