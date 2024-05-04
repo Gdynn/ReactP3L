@@ -14,11 +14,10 @@ const FormRegister = () => {
   const [user, setUser] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [data, setData] = useState({
-    fullname: "",
     username: "",
     email: "",
     password: "",
-    alamat: "",
+    notelp: "",
   });
 
   function Verfication(props) {
@@ -105,7 +104,7 @@ const FormRegister = () => {
           style={{ backgroundColor: "white", width: "600px" }}
         >
           <h1 className="mb-3 text-center">Register</h1>
-          <div className="row mb-2">
+          {/* <div className="row mb-2">
             <div className="col-md-12">
               <label className="d-flex">Nama Lengkap</label>
               <input
@@ -117,7 +116,7 @@ const FormRegister = () => {
                 className="form-control"
               />
             </div>
-          </div>
+          </div> */}
           <div className="row mb-2">
             <div className="col-md-12">
               <label className="d-flex">Username</label>
@@ -159,13 +158,13 @@ const FormRegister = () => {
           </div>
           <div className="row mb-2">
             <div className="col-md-12">
-              <label className="d-flex">Alamat</label>
+              <label className="d-flex">Nomor Telepon</label>
               <input
                 type="text"
-                label="alamat"
-                name="alamat"
+                label="notelp"
+                name="notelp"
                 onChange={handleChange}
-                placeholder="Masukkan Alamat"
+                placeholder="Masukkan Nomor Telepon"
                 className="form-control"
               />
             </div>

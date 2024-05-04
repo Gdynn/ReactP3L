@@ -39,12 +39,17 @@ const FormLogin = () => {
           toast.success(res.message);
         } else if (res.data.type_pengguna == "manager operasional") { 
           console.log(`masuk manager operasional : ${res.data.type_pengguna} == 'manager operasional`);
-          navigate("/manager-operasional");
+          navigate("/mo");
           sessionStorage.setItem("token", res.access_token);
           sessionStorage.setItem("user", JSON.stringify(res.data));
           toast.success(res.message);
-        }
-        else {
+        } else if (res.data.type_pengguna == "owner") { 
+          console.log(`masuk owner : ${res.data.type_pengguna} == 'owner`);
+          navigate("/owner");
+          sessionStorage.setItem("token", res.access_token);
+          sessionStorage.setItem("user", JSON.stringify(res.data));
+          toast.success(res.message);
+        } else {
           console.log(`ini active apa belum : ${res.data.active}`);
           if (res.data.active === 1) {
             

@@ -8,6 +8,7 @@ import Profile from "../pages/ProfilePage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import TopNavbar from "../components/TopNavbar";
 import AdminLayout from "../layouts/AdminLayout";
+import MOLayout from "../layouts/MOLayout";
 
 import Footer from "../components/footer";
 
@@ -18,6 +19,21 @@ import AdminUpdateUser from "../pages/admin/user/updateUserPage";
 import ShowDataResep from "../pages/admin/resep/showDataResep";
 import UpdateDataResep from "../pages/admin/resep/updateDataResep";
 import CreateDataResep from "../pages/admin/resep/createDataResep";
+
+import AdminUpdateLayanan from "../pages/admin/layanan/updateLayananPage";
+import CreateLayanan from "../pages/admin/layanan/createLayananPage";
+import ShowDataLayanan from "../pages/admin/layanan/showDataLayananPage";
+
+import ShowDataProduk from "../pages/admin/produk/showDataProdukPage";
+import CreateProduk from "../pages/admin/produk/createProdukPage";
+import UpdateProdukPage from "../pages/admin/produk/updateProdukPage";
+import ShowDataHampers from "../pages/admin/hampers/showDataHampersPage";
+import CreateHampers from "../pages/admin/hampers/createHampersPage";
+import UpdateHampersPage from "../pages/admin/hampers/updateHampersPage";
+
+import ShowDataPembelianBahanBaku from "../pages/mo/pembelianBahanBaku/showDataPembelianBahanBaku";
+import CreatePembelianBahanBaku from "../pages/mo/pembelianBahanBaku/createPembelianBahanBakuPage";
+import UpdatePembelianBahanBakuPage from "../pages/mo/pembelianBahanBaku/updatePembelianBahanBakuPage";
 
 const router = createBrowserRouter([
   {
@@ -134,8 +150,74 @@ const router = createBrowserRouter([
         path: "/admin/UpdateDataResep",
         element: <UpdateDataResep />,
       },
+      {
+        path: "/admin/showDataProduk",
+        element: <ShowDataProduk />,
+      },
+      {
+        path: "/admin/createProduk",
+        element: <CreateProduk />,
+      },
+      {
+        path: "/admin/updateProduk",
+        element: <UpdateProdukPage />,
+      },
+      {
+        path: "/admin/showDataHampers",
+        element: <ShowDataHampers />,
+      },
+      {
+        path: "/admin/createHampers",
+        element: <CreateHampers />,
+      },
+      {
+        path: "/admin/updateHampers",
+        element: <UpdateHampersPage />,
+      },
+      {
+        path: "/admin/createLayanan",
+        element: <CreateLayanan />,
+      },
+      {
+        path: "/admin/showDataLayanan",
+        element: <ShowDataLayanan />,
+      },
+      {
+        path: "/admin/updateLayanan",
+        element: <AdminUpdateLayanan />,
+      },
     ],
   },
+  {
+    path: "/mo",
+    element: (
+      <ProtectedRoutes>
+        <MOLayout />
+      </ProtectedRoutes>
+    ),
+    children: [
+      {
+        path: "/mo",
+        element: <AdminShowUser />,
+      },
+      {
+        path: "/mo/showDataUser",
+        element: <AdminShowUser />,
+      },
+      {
+        path: "/mo/showDataPembelianBahanBaku",
+        element: <ShowDataPembelianBahanBaku />,
+      },
+      {
+        path: "/mo/createPembelianBahanBaku",
+        element: <CreatePembelianBahanBaku />,
+      },
+      {
+        path: "/mo/updatePembelianBahanBaku",
+        element: <UpdatePembelianBahanBakuPage />,
+      },
+    ],
+  }
 ]);
 const AppRouter = () => {
   return (

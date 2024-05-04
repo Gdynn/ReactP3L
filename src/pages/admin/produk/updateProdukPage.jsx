@@ -1,12 +1,12 @@
 import { React, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { UpdateItem } from "../../../apiExample/apiItem";
+import { UpdateProduk } from "../../../api/apiProduk";
 
 
-const UpdateItemLaundry = ({ item, onClose }) => {
+const UpdateProdukPage = ({ produk, onClose }) => {
   const [show, setShow] = useState(false);
-  const [data, setData] = useState(item);
+  const [data, setData] = useState(produk);
   const [isPending, setIsPending] = useState(false);
 
   const handleClose = () => {
@@ -17,15 +17,19 @@ const UpdateItemLaundry = ({ item, onClose }) => {
     setShow(true);
     console.log("tes: ", data);
   };
+  // const handleChange = (event) => {
+  //   setData({ ...data, [event.target.name]: event.target.value });
+  // };
   const handleChange = (event) => {
-    setData({ ...data, [event.target.name]: event.target.value });
+    const { name, value } = event.target;
+    setData({ ...data, [name]: value });
   };
   const submitData = (event) => {
     event.preventDefault();
     setIsPending(true);
     console.log("tes: ", data);
-    console.log("tes id: ", data.id_item);
-    UpdateItem(data.id_item, data)
+    console.log("tes id: ", data.ID_PRODUK);
+    UpdateProduk(data.ID_PRODUK, data)
       .then((response) => {
         setIsPending(false);
         toast.success(response.message);
@@ -62,19 +66,33 @@ const UpdateItemLaundry = ({ item, onClose }) => {
               borderRadius: "10px",
             }}
           >
-            <h1 className="mb-3 text-center">Update Item</h1>
+            <h1 className="mb-3 text-center">Update Produk</h1>
             <div className="row mb-2"></div>
             <div className="row mb-2">
               <div className="col-md-12">
-                <label className="d-flex">Nama Item</label>
+                <label className="d-flex">Nama Produk</label>
                 <input
                   type="text"
-                  label="Nama Item"
-                  name="nama_item"
+                  label="Nama Produk"
+                  name="NAMA_PRODUK"
                   onChange={handleChange}
-                  placeholder="Masukkan Nama Item"
+                  placeholder="Masukkan Nama Produk"
                   className="form-control"
-                  value={data?.nama_item}
+                  value={data?.NAMA_PRODUK}
+                />
+              </div>
+            </div>
+            <div className="row mb-2">
+              <div className="col-md-12">
+                <label className="d-flex">KUANTITAS</label>
+                <input
+                  type="number"
+                  label="Kuantitas"
+                  name="KUANTITAS"
+                  onChange={handleChange}
+                  placeholder="Masukkan Kuantitas"
+                  className="form-control"
+                  value={data?.KUANTITAS}
                 />
               </div>
             </div>
@@ -84,26 +102,39 @@ const UpdateItemLaundry = ({ item, onClose }) => {
                 <input
                   type="number"
                   label="Harga"
-                  name="harga"
+                  name="HARGA"
                   onChange={handleChange}
                   placeholder="Masukkan Harga"
                   className="form-control"
-                  value={data?.harga}
+                  value={data?.HARGA}
                 />
               </div>
             </div>
             <div className="row mb-2">
               <div className="col-md-12">
-                <label className="d-flex">Deskripsi</label>
-                <input
+                <label className="d-flex">Jenis Produk</label>
+                {/* <input
                   type="text"
-                  label="Deskripsi"
-                  name="deskripsi"
+                  label="Jenis Produk"
+                  name="JENIS_PRODUK"
                   onChange={handleChange}
-                  placeholder="Masukkan Deskripsi"
+                  placeholder="Masukkan Note"
                   className="form-control"
-                  value={data?.deskripsi}
-                />
+                  value={data?.JENIS_PRODUK}
+                /> */}
+                <select
+                  name="JENIS_PRODUK"
+                  onChange={handleChange}
+                  className="form-control"
+                  value={data?.JENIS_PRODUK}
+                >
+                  <option value="">Pilih Jenis Produk</option>
+                  <option value="Titipan">Titipan</option>
+                  <option value="Minuman">Minuman</option>
+                  <option value="Cake">Cake</option>
+                  <option value="Roti">Roti</option>
+                  <option value="Produk Lain">Produk Lain</option>
+                </select>
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
@@ -119,7 +150,7 @@ const UpdateItemLaundry = ({ item, onClose }) => {
                 onClick={handleClose}
                 style={{ maxWidth: "100px" }}
               >
-                Cancel
+                cancel
               </Button>
             </div>
           </div>
@@ -129,4 +160,4 @@ const UpdateItemLaundry = ({ item, onClose }) => {
   );
 };
 
-export default UpdateItemLaundry;
+export default UpdateProdukPage;

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 // import component
-import TopNavbarAdmin from "../components/TopNavbarAdmin";
+import TopNavbarMO from "../components/TopNavbarMO";
 // import SidenavCustom from "../pages/admin/sideNav";
 // import TopNavbar from "../components/TopNavbar";
 //mengatur route yang akan ditampilkan di navbar
@@ -22,7 +22,7 @@ const routes = [
 const AdminLayout = ({ children }) => {
   return (
     <div className="mt-4 pt-5">
-      <TopNavbarAdmin routes={routes} />
+      <TopNavbarMO routes={routes} />
       {children ? children : <Outlet />}
     </div>
   );
