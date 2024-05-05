@@ -24,16 +24,12 @@ const CreatePembelianBahanBaku = () => {
     });
 
     const showBahan = () => {
-        // setIsLoading(true);
         GetAllBahanBaku()
             .then((response) => {
                 setBahan(response);
-                // setOriginalData(response);
-                // setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err);
-                // setIsLoading(false);
             });
     };
 
