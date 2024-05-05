@@ -15,7 +15,7 @@ const UpdateUserAccount = ({ user, onClose }) => {
   const handleShow = () => {
     setShow(true);
     console.log("tes: ", data);
-  }
+  };
   const handleChange = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
   };
@@ -39,7 +39,11 @@ const UpdateUserAccount = ({ user, onClose }) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow} style={{ marginRight: '8px'}}>
+      <Button
+        variant="primary"
+        onClick={handleShow}
+        style={{ marginRight: "8px" }}
+      >
         Update
       </Button>
       <Modal
@@ -83,6 +87,20 @@ const UpdateUserAccount = ({ user, onClose }) => {
                   placeholder="Masukkan Username"
                   className="form-control"
                   value={data?.username}
+                />
+              </div>
+            </div>
+            <div className="row mb-2">
+              <div className="col-md-12">
+                <label className="d-flex">Password</label>
+                <input
+                  type="password"
+                  label="password"
+                  name="password"
+                  onChange={handleChange}
+                  placeholder="Masukkan Password"
+                  className="form-control"
+                  value={data?.password}
                 />
               </div>
             </div>
