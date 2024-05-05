@@ -17,7 +17,6 @@ const ShowDataUser = () => {
 
   const deleteUser = (id) => {
     setIsPending(true);
-    // Toast.success(response);
     DeleteUser(id)
       .then((response) => {
         setIsPending(false);
@@ -27,7 +26,7 @@ const ShowDataUser = () => {
       .catch((err) => {
         console.log(err);
         setIsPending(false);
-        toast.dark(err.message);
+        toast.error(err.message);
       });
   };
 
@@ -51,13 +50,14 @@ const ShowDataUser = () => {
       setUsers(originalUsers);
     } else {
       const filteredUsers = originalUsers.filter((user) =>
-        user.fullname.toLowerCase().includes(searchInput.toLowerCase())
+        user.username.toLowerCase().includes(searchInput.toLowerCase())
       );
 
       setUsers(filteredUsers);
     }
     setIsLoading(false);
   };
+
   useEffect(() => {
     showUser();
   }, []);
@@ -115,6 +115,7 @@ const ShowDataUser = () => {
                     <tr>
                       <th scope="col">No</th>
                       <th scope="col">Username</th>
+                      <th scope="col">Password</th>
                       <th scope="col">Email</th>
                       <th scope="col">Nomor Telepon</th>
                       <th scope="col">Type Pengguna</th>
@@ -127,6 +128,7 @@ const ShowDataUser = () => {
                       <tr key={user.id}>
                         <th scope="row">{index + 1}</th>
                         <td>{user.username}</td>
+                        <td>{user.password}</td>
                         <td>{user.email}</td>
                         <td>{user.notelp}</td>
                         <td>{user.type_pengguna}</td>

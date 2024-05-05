@@ -26,8 +26,8 @@ const UpdateDataKaryawan = ({ karyawan, onClose }) => {
     event.preventDefault();
     setIsPending(true);
     console.log("tes: ", data);
-    console.log("tes id: ", data.ID_KARYAWAN);
-    UpdateKaryawan(data.ID_KARYAWAN, data)
+    console.log("tes id: ", data.ID_PEGAWAI);
+    UpdateKaryawan(data.ID_PEGAWAI, data)
       .then((response) => {
         setIsPending(false);
         console.log(response); // Debug response

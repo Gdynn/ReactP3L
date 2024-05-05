@@ -110,7 +110,7 @@ const ShowDataKaryawan = () => {
               <div className="col-4 d-flex justify-content-end">
                 <Button
                   variant="success"
-                  onClick={() => navigate("/admin/CreateDataKaryawan")}
+                  onClick={() => navigate("/mo/createDataKaryawan")}
                   style={{ width: "100px" }}
                 >
                   Create
@@ -125,6 +125,8 @@ const ShowDataKaryawan = () => {
                       <th scope="col">Email</th>
                       <th scope="col">No Telp</th>
                       <th scope="col">Alamat</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -136,7 +138,7 @@ const ShowDataKaryawan = () => {
                         <td>{karyawan.NOTELP_PEGAWAI}</td>
                         <td>{karyawan.ALAMAT}</td>
                         <td>
-                          <UpdateDataKaryawan
+                          <UpdateDatakaryawan
                             karyawan={karyawan}
                             onClose={showKaryawan}
                           />
@@ -160,7 +162,7 @@ const ShowDataKaryawan = () => {
                             <Button
                               variant="danger"
                               onClick={() =>
-                                deleteKaryawan(karyawan.ID_KARYAWAN)
+                                deleteKaryawan(karyawan.ID_PEGAWAI)
                               }
                               style={{ marginRight: "7px", width: "70px" }}
                             >
