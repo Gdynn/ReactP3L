@@ -35,6 +35,10 @@ import ShowDataPembelianBahanBaku from "../pages/mo/pembelianBahanBaku/showDataP
 import CreatePembelianBahanBaku from "../pages/mo/pembelianBahanBaku/createPembelianBahanBakuPage";
 import UpdatePembelianBahanBakuPage from "../pages/mo/pembelianBahanBaku/updatePembelianBahanBakuPage";
 
+import ShowDataKaryawan from "../pages/mo/Karyawan/showDataKaryawan";
+import CreateDataKaryawan from "../pages/mo/Karyawan/createDataKaryawan";
+import UpdateDataKaryawan from "../pages/mo/Karyawan/updateDataKaryawan";
+
 const router = createBrowserRouter([
   {
     path: "*",
@@ -205,6 +209,14 @@ const router = createBrowserRouter([
         element: <AdminShowUser />,
       },
       {
+        path: "/mo/createDataUser",
+        element: <AdminCreateUser />,
+      },
+      {
+        path: "/mo/updateDataUser",
+        element: <AdminUpdateUser />,
+      },
+      {
         path: "/mo/showDataPembelianBahanBaku",
         element: <ShowDataPembelianBahanBaku />,
       },
@@ -216,8 +228,20 @@ const router = createBrowserRouter([
         path: "/mo/updatePembelianBahanBaku",
         element: <UpdatePembelianBahanBakuPage />,
       },
+      {
+        path: "/mo/showDataKaryawan",
+        element: <ShowDataKaryawan />,
+      },
+      {
+        path: "/mo/createDataKaryawan",
+        element: <CreateDataKaryawan />,
+      },
+      {
+        path: "/mo/updateDataKaryawan",
+        element: <UpdateDataKaryawan />,
+      },
     ],
-  }
+  },
 ]);
 const AppRouter = () => {
   return (
