@@ -45,7 +45,7 @@ const TopNavbar = ({ routes }) => {
         <Container>
           <Navbar.Brand onClick={() => navigate("/")}>
             {/* <img src={logo} alt="" style={{ height: "40px" }} /> */}
-              <h3>ATMA KITCHEN</h3>
+            <h3>ATMA KITCHEN</h3>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -60,6 +60,12 @@ const TopNavbar = ({ routes }) => {
               onClick={() => navigate("/mo/showDataPembelianBahanBaku")}
             >
               Data Pembelian Bahan Baku
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/mo/showDataKaryawan")}
+            >
+              Data Karyawan
             </Nav.Link>
             <Nav className="me-auto"></Nav>
             <div className="d-flex align-items-end text-end ms-auto justify-content-center">
