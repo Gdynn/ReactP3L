@@ -48,22 +48,6 @@ const ShowDataHampers = () => {
       });
   };
 
-  // const groupDetailsByHampers = (details) => {
-  //   const grouped = new Map();
-
-  //   details.forEach(detail => {
-  //     const hampersId = detail.hampers.ID_HAMPERS;
-  //     if (!grouped.has(hampersId)) {
-  //       grouped.set(hampersId, {
-  //         ...detail.hampers,
-  //         products: []
-  //       });
-  //     }
-  //     grouped.get(hampersId).products.push(detail.produk);
-  //   });
-
-  //   return Array.from(grouped.values());
-  // };
   const groupDetailsByHampers = (details) => {
     const grouped = new Map();
 

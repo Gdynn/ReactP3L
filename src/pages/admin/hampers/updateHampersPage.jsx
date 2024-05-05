@@ -7,10 +7,6 @@ import { GetAllProduk } from "../../../api/apiProduk";
 
 const UpdateHampersPage = ({ detail, onClose }) => {
   const [show, setShow] = useState(false);
-  // const [data, setData] = useState({
-  //   hampers: detail ? detail.hampers : {},
-  //   products: detail ? detail.products : [],
-  // });
   const [data, setData] = useState({
     hampers: detail || {},
     products: detail.products || [],
@@ -33,6 +29,7 @@ const UpdateHampersPage = ({ detail, onClose }) => {
     setShow(false);
     onClose();
   };
+  
   const handleShow = () => {
     if (data && data.hampers) {
       console.log("Test hampers: ", data.hampers);
@@ -43,16 +40,6 @@ const UpdateHampersPage = ({ detail, onClose }) => {
     setShow(true);
   };
 
-  // const handleChange = (event, index) => {
-  //   const { name, value } = event.target;
-  //   if (name.startsWith('ID_PRODUK')) {
-  //     const newProducts = [...data.products];
-  //     newProducts[index].ID_PRODUK = value;
-  //     setData({ ...data, products: newProducts });
-  //   } else {
-  //     setData({ ...data, hampers: { ...data.hampers, [name]: value } });
-  //   }
-  // };
   const handleChange = (event, index) => {
     const { name, value } = event.target;
     if (name.startsWith('ID_PRODUK')) {
@@ -85,13 +72,6 @@ const UpdateHampersPage = ({ detail, onClose }) => {
       });
   };
 
-  // useEffect(() => {
-  //   setData({
-  //     hampers: detail.hampers || {},
-  //     products: detail.products || [],
-  //   });
-  //   showProduk();
-  // }, [detail]);
   useEffect(() => {
     console.log("Detail prop received:", detail);
     if (detail) {
@@ -102,7 +82,6 @@ const UpdateHampersPage = ({ detail, onClose }) => {
     }
     showProduk();
   }, [detail]);
-
 
   return (
     <>
@@ -163,39 +142,6 @@ const UpdateHampersPage = ({ detail, onClose }) => {
                   </select>
                 </div>
               ))}
-
-              {/* <div className="col-md-6">
-                <label className="d-flex">Nama Produk 1</label>
-                <select
-                  name="ID_PRODUK1"
-                  onChange={handleChange}
-                  className="form-control"
-                  value={dataDetail1.ID_PRODUK}
-                >
-                  <option value="">Select Produk 1</option>
-                  {produks.map((produk1) => (
-                    <option key={produk1.ID_PRODUK} value={produk1.ID_PRODUK}>
-                      {produk1.NAMA_PRODUK}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="col-md-6">
-                <label className="d-flex">Nama Produk 2</label>
-                <select
-                  name="ID_PRODUK2"
-                  onChange={handleChange}
-                  className="form-control"
-                  value={dataDetail2.ID_PRODUK}
-                >
-                  <option value="">Select Produk 2</option>
-                  {produks.map((produk2) => (
-                    <option key={produk2.ID_PRODUK} value={produk2.ID_PRODUK}>
-                      {produk2.NAMA_PRODUK}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
             </div>
             <div className="row mb-2">
               <div className="col-md-12">
