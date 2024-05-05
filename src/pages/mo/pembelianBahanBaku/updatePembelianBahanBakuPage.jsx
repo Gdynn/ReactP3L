@@ -5,21 +5,25 @@ import { UpdatePembelianBahanBaku } from "../../../api/apiPembelianBahanBaku";
 import { UpdateDetailPengeluaran } from "../../../api/apiDetailPengeluaran";
 import { GetAllBahanBaku } from "../../../api/apiBahanBaku";
 
-
 const UpdatePembelianBahanBakuPage = ({ pengeluaran, onClose }) => {
     const [show, setShow] = useState(false);
-    const [data, setData] = useState(pengeluaran);
+    // const [data, setData] = useState(pengeluaran);
+    const [data, setData] = useState({
+        bahan_baku: pengeluaran.bahan_baku || {},
+        pembelian_bahan_baku: pengeluaran.pembelian_bahan_baku || {},
+        ID_DETAIL_PENGELUARAN: pengeluaran.ID_DETAIL_PENGELUARAN || ""
+    });
     const [bahan_baku, setBahan] = useState([]);
     const [isPending, setIsPending] = useState(false);
 
     const showBahan = () => {
         GetAllBahanBaku()
             .then((response) => {
+                console.log("Bahan Baku data: ", response); // Check the structure and content of response
                 setBahan(response);
             })
             .catch((err) => {
                 console.log(err);
-                // setIsLoading(false);
             });
     };
 
@@ -31,34 +35,84 @@ const UpdatePembelianBahanBakuPage = ({ pengeluaran, onClose }) => {
         setShow(true);
         console.log("tes: ", data);
     };
-    // const handleChange = (event) => {
-    //   setData({ ...data, [event.target.name]: event.target.value });
-    // };
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setData({ ...data, [name]: value });
+        if (name === "ID_BAHAN_BAKU") {
+            // Assuming ID_BAHAN_BAKU needs to update bahan_baku sub-object
+            setData(prevData => ({
+                ...prevData,
+                bahan_baku: {
+                    ...prevData.bahan_baku,
+                    ID_BAHAN_BAKU: value
+                }
+            }));
+        } else {
+            // Assuming these belong to pembelian_bahan_baku sub-object
+            setData(prevData => ({
+                ...prevData,
+                pembelian_bahan_baku: {
+                    ...prevData.pembelian_bahan_baku,
+                    [name]: value
+                }
+            }));
+        }
     };
-    const submitData = (event) => {
+
+    // const submitData = (event) => {
+    //     event.preventDefault();
+    //     setIsPending(true);
+    //     console.log("tes: ", data);
+    //     console.log("tes id pembelian: ", data.ID_PEMBELIAN);
+    //     console.log("tes id pengeluaran: ", data.ID_PENGELUARAN);
+    //     UpdatePembelianBahanBaku(data.pembelian_bahan_baku.ID_PEMBELIAN, data)
+    //     UpdateDetailPengeluaran(data.ID_DETAIL_PENGELUARAN, data)
+    //         .then((response) => {
+    //             setIsPending(false);
+    //             toast.success(response.message);
+    //             handleClose();
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //             setIsPending(false);
+    //             toast.dark(err.message);
+    //         });
+    // };
+    const submitData = async (event) => {
         event.preventDefault();
         setIsPending(true);
-        console.log("tes: ", data);
-        console.log("tes id: ", data.ID_PRODUK);
-        UpdatePembelianBahanBaku(data.pembelian_bahan_baku.ID_PEMBELIAN, data)
-        UpdateDetailPengeluaran(data.ID_DETAIL_PENGELUARAN, data)
-            .then((response) => {
-                setIsPending(false);
-                toast.success(response.message);
-                handleClose();
-            })
-            .catch((err) => {
-                console.log(err);
-                setIsPending(false);
-                toast.dark(err.message);
-            });
+    
+        const updatedData = {
+            ...data.pembelian_bahan_baku,
+            ID_BAHAN_BAKU: data.bahan_baku.ID_BAHAN_BAKU,  // Ensure this is included
+        };
+    
+        try {
+            await UpdatePembelianBahanBaku(data.pembelian_bahan_baku.ID_PEMBELIAN, updatedData);
+            await UpdateDetailPengeluaran(data.ID_DETAIL_PENGELUARAN, updatedData);
+            toast.success("Update successful");
+            handleClose();
+        } catch (err) {
+            console.error(err);
+            toast.error("Update failed: " + err.message);
+        } finally {
+            setIsPending(false);
+        }
     };
+    
+    
+    // useEffect(() => {
+    //     showBahan();
+    // }, []);
     useEffect(() => {
         showBahan();
-    }, []);
+        setData({
+            bahan_baku: pengeluaran.bahan_baku || {},
+            pembelian_bahan_baku: pengeluaran.pembelian_bahan_baku || {},
+            ID_DETAIL_PENGELUARAN: pengeluaran.ID_DETAIL_PENGELUARAN || ""
+        });
+    }, [pengeluaran]);
+    
 
     return (
         <>
@@ -89,15 +143,6 @@ const UpdatePembelianBahanBakuPage = ({ pengeluaran, onClose }) => {
                         <div className="row mb-2">
                             <div className="col-md-12">
                                 <label className="d-flex">Nama Bahan Baku</label>
-                                {/* <input
-                  type="text"
-                  label="Nama Bahan Baku"
-                  name="NAMA_BAHAN_BAKU"
-                  onChange={handleChange}
-                  placeholder="Masukkan Nama Bahan Baku"
-                  className="form-control"
-                  value={data.bahan_baku?.NAMA_BAHAN_BAKU}
-                /> */}
                                 <select
                                     name="ID_BAHAN_BAKU"
                                     onChange={handleChange}

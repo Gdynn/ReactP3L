@@ -1,35 +1,78 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { UpdateHampers } from "../../../api/apiHampers";
+import { UpdateDetailHampers } from "../../../api/apiDetailHampers";
+import { GetAllProduk } from "../../../api/apiProduk";
 
-
-const UpdateHampersPage = ({ hampers, onClose }) => {
+const UpdateHampersPage = ({ detail, onClose }) => {
   const [show, setShow] = useState(false);
-  const [data, setData] = useState(hampers);
+  // const [data, setData] = useState({
+  //   hampers: detail ? detail.hampers : {},
+  //   products: detail ? detail.products : [],
+  // });
+  const [data, setData] = useState({
+    hampers: detail || {},
+    products: detail.products || [],
+  });
+  const [produks, setProduk] = useState([]);
   const [isPending, setIsPending] = useState(false);
+
+  const showProduk = () => {
+    GetAllProduk()
+      .then((response) => {
+        console.log("Produk data: ", response); // Check the structure and content of response
+        setProduk(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   const handleClose = () => {
     setShow(false);
     onClose();
   };
   const handleShow = () => {
+    if (data && data.hampers) {
+      console.log("Test hampers: ", data.hampers);
+      console.log("Test produk: ", data.products);
+    } else {
+      console.log("Data or hampers is undefined");
+    }
     setShow(true);
-    console.log("tes: ", data);
   };
-  // const handleChange = (event) => {
-  //   setData({ ...data, [event.target.name]: event.target.value });
+
+  // const handleChange = (event, index) => {
+  //   const { name, value } = event.target;
+  //   if (name.startsWith('ID_PRODUK')) {
+  //     const newProducts = [...data.products];
+  //     newProducts[index].ID_PRODUK = value;
+  //     setData({ ...data, products: newProducts });
+  //   } else {
+  //     setData({ ...data, hampers: { ...data.hampers, [name]: value } });
+  //   }
   // };
-  const handleChange = (event) => {
+  const handleChange = (event, index) => {
     const { name, value } = event.target;
-    setData({ ...data, [name]: value });
+    if (name.startsWith('ID_PRODUK')) {
+      let updatedProducts = [...data.products];
+      updatedProducts[index] = { ...updatedProducts[index], ID_PRODUK: value };
+      setData(prevData => ({ ...prevData, products: updatedProducts }));
+    } else {
+      setData(prevData => ({
+        ...prevData,
+        hampers: { ...prevData.hampers, [name]: value }
+      }));
+    }
   };
+
   const submitData = (event) => {
     event.preventDefault();
     setIsPending(true);
     console.log("tes: ", data);
-    console.log("tes id: ", data.ID_HAMPERS);
-    UpdateHampers(data.ID_HAMPERS, data)
+    console.log("tes id: ", data.hampers.ID_HAMPERS);
+    UpdateHampers(data.hampers.ID_HAMPERS, data)
       .then((response) => {
         setIsPending(false);
         toast.success(response.message);
@@ -41,6 +84,25 @@ const UpdateHampersPage = ({ hampers, onClose }) => {
         toast.dark(err.message);
       });
   };
+
+  // useEffect(() => {
+  //   setData({
+  //     hampers: detail.hampers || {},
+  //     products: detail.products || [],
+  //   });
+  //   showProduk();
+  // }, [detail]);
+  useEffect(() => {
+    console.log("Detail prop received:", detail);
+    if (detail) {
+      setData({
+        hampers: detail || {},
+        products: detail.products || [],
+      });
+    }
+    showProduk();
+  }, [detail]);
+
 
   return (
     <>
@@ -78,9 +140,62 @@ const UpdateHampersPage = ({ hampers, onClose }) => {
                   onChange={handleChange}
                   placeholder="Masukkan Nama Hampers"
                   className="form-control"
-                  value={data?.NAMA_HAMPERS}
+                  value={data.hampers.NAMA_HAMPERS || ''}
                 />
               </div>
+            </div>
+            <div className="row mb-2">
+              {data.products.map((product, index) => (
+                <div key={index} className="col-md-6">
+                  <label className="d-flex">Nama Produk {index + 1}</label>
+                  <select
+                    name={`ID_PRODUK_${index}`}
+                    onChange={(e) => handleChange(e, index)}
+                    className="form-control"
+                    value={product.ID_PRODUK}
+                  >
+                    <option value="">Select Produk {index + 1}</option>
+                    {produks.map((p) => (
+                      <option key={p.ID_PRODUK} value={p.ID_PRODUK}>
+                        {p.NAMA_PRODUK}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+
+              {/* <div className="col-md-6">
+                <label className="d-flex">Nama Produk 1</label>
+                <select
+                  name="ID_PRODUK1"
+                  onChange={handleChange}
+                  className="form-control"
+                  value={dataDetail1.ID_PRODUK}
+                >
+                  <option value="">Select Produk 1</option>
+                  {produks.map((produk1) => (
+                    <option key={produk1.ID_PRODUK} value={produk1.ID_PRODUK}>
+                      {produk1.NAMA_PRODUK}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-6">
+                <label className="d-flex">Nama Produk 2</label>
+                <select
+                  name="ID_PRODUK2"
+                  onChange={handleChange}
+                  className="form-control"
+                  value={dataDetail2.ID_PRODUK}
+                >
+                  <option value="">Select Produk 2</option>
+                  {produks.map((produk2) => (
+                    <option key={produk2.ID_PRODUK} value={produk2.ID_PRODUK}>
+                      {produk2.NAMA_PRODUK}
+                    </option>
+                  ))}
+                </select>
+              </div> */}
             </div>
             <div className="row mb-2">
               <div className="col-md-12">
@@ -92,7 +207,7 @@ const UpdateHampersPage = ({ hampers, onClose }) => {
                   onChange={handleChange}
                   placeholder="Masukkan Harga"
                   className="form-control"
-                  value={data?.HARGA}
+                  value={data.hampers.HARGA || ''}
                 />
               </div>
             </div>
@@ -105,7 +220,7 @@ const UpdateHampersPage = ({ hampers, onClose }) => {
                   onChange={handleChange}
                   placeholder="Masukkan Keterangan"
                   className="form-control"
-                  value={data?.KETERANGAN}
+                  value={data.hampers.KETERANGAN || ''}
                 />
               </div>
             </div>

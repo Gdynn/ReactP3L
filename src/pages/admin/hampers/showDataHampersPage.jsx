@@ -5,15 +5,15 @@ import AdminPageBackground from "../adminPageBackground";
 import { Button, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { DeleteHampers, GetAllHampers } from "../../../api/apiHampers";
+import { DeleteDetailHampers, GetAllDetailHampers } from "../../../api/apiDetailHampers";
 import "../css/ShowDataUser.css";
 import { useNavigate } from "react-router-dom";
 import UpdateHampersPage from "./updateHampersPage";
 
-
 const ShowDataHampers = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [hampersd, setHampers] = useState([]);
+  const [details, setDetail] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [originalData, setOriginalData] = useState([]);
@@ -24,20 +24,22 @@ const ShowDataHampers = () => {
       .then((response) => {
         // setIsPending(false);
         toast.success(response.message);
-        showHampers();
+        showDetail();
       })
       .catch((err) => {
         console.log(err);
         setIsPending(false);
-        showHampers();
+        showDetail();
       });
   };
-  const showHampers = () => {
+
+  const showDetail = () => {
     setIsLoading(true);
-    GetAllHampers()
+    GetAllDetailHampers()
       .then((response) => {
-        setHampers(response);
-        setOriginalData(response);
+        const groupedDetails = groupDetailsByHampers(response);
+        setDetail(groupedDetails);
+        setOriginalData(groupedDetails);  // Make sure to store the original data grouped as well
         setIsLoading(false);
       })
       .catch((err) => {
@@ -45,21 +47,59 @@ const ShowDataHampers = () => {
         setIsLoading(false);
       });
   };
+
+  // const groupDetailsByHampers = (details) => {
+  //   const grouped = new Map();
+
+  //   details.forEach(detail => {
+  //     const hampersId = detail.hampers.ID_HAMPERS;
+  //     if (!grouped.has(hampersId)) {
+  //       grouped.set(hampersId, {
+  //         ...detail.hampers,
+  //         products: []
+  //       });
+  //     }
+  //     grouped.get(hampersId).products.push(detail.produk);
+  //   });
+
+  //   return Array.from(grouped.values());
+  // };
+  const groupDetailsByHampers = (details) => {
+    const grouped = new Map();
+
+    details.forEach(detail => {
+      const hampersId = detail.hampers.ID_HAMPERS;
+      if (!grouped.has(hampersId)) {
+        grouped.set(hampersId, {
+          ID_HAMPERS: detail.hampers.ID_HAMPERS,
+          NAMA_HAMPERS: detail.hampers.NAMA_HAMPERS,
+          KETERANGAN: detail.hampers.KETERANGAN,
+          HARGA: detail.hampers.HARGA,
+          products: []
+        });
+      }
+      grouped.get(hampersId).products.push(detail.produk);
+    });
+
+    return Array.from(grouped.values());
+  };
+
+
   useEffect(() => {
-    showHampers();
+    showDetail();
   }, []);
 
   const handleSearch = () => {
     setIsLoading(true);
     if (searchInput === "") {
-      setHampers(originalData);
+      setDetail(originalData);
     } else {
-      const filteredData = originalData.filter((hampers) =>
-        hampers.NAMA_HAMPERS
+      const filteredData = originalData.filter((detail) =>
+        detail.NAMA_HAMPERS
           .toLowerCase()
           .includes(searchInput.toLowerCase())
       );
-      setHampers(filteredData);
+      setDetail(filteredData);
     }
     setIsLoading(false);
   };
@@ -125,6 +165,7 @@ const ShowDataHampers = () => {
                     <tr>
                       <th scope="col">No</th>
                       <th scope="col">Nama Hampers</th>
+                      <th scope="col">Nama Produk</th>
                       <th scope="col">Keterangan</th>
                       <th scope="col">Harga</th>
                       <th scope="col">Edit</th>
@@ -132,16 +173,17 @@ const ShowDataHampers = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {hampersd.map((hampers, index) => (
-                      <tr key={hampers.id}>
+                    {details.map((group, index) => (
+                      <tr key={group.ID_HAMPERS}>
                         <th scope="row">{index + 1}</th>
-                        <td>{hampers.NAMA_HAMPERS}</td>
-                        <td>{hampers.KETERANGAN}</td>
-                        <td>{hampers.HARGA}</td>
+                        <td>{group.NAMA_HAMPERS}</td>
+                        <td>{group.products.map(product => product.NAMA_PRODUK).join(", ")}</td>
+                        <td>{group.KETERANGAN}</td>
+                        <td>{group.HARGA}</td>
                         <td>
                           <UpdateHampersPage
-                            hampers={hampers}
-                            onClose={showHampers}
+                            detail={group}
+                            onClose={showDetail}
                           />
                         </td>
                         <td className="delete-col">
@@ -162,7 +204,7 @@ const ShowDataHampers = () => {
                           ) : (
                             <Button
                               variant="danger"
-                              onClick={() => deleteHampers(hampers.ID_HAMPERS)}
+                              onClick={() => deleteHampers(group.ID_HAMPERS)}
                               style={{ marginRight: "7px", width: "70px" }}
                             >
                               Hapus
