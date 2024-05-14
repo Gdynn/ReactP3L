@@ -6,7 +6,7 @@ const Footer = () => {
       <footer className="py-5">
         <div className="row">
           <div className="col-md-3 mb-3">
-            <h5>Laundry</h5>
+            <h5>Atma Kitchen</h5>
             <ul className="list-unstyled mt-4">
               <li className="mb-2">
                 <a href="#" className="text-body-secondary">
@@ -37,23 +37,18 @@ const Footer = () => {
           </div>
 
           <div className="col-md-3 mb-3">
-            <h5>Laundry</h5>
+            <h5>Atma Kitchen</h5>
             <ul className="list-unstyled mt-4">
               <li className="mb-2">
                 <a href="#" className="text-body-secondary">
                   Our Teams
                 </a>
               </li>
-              <li className="mb-2">
-                <a href="#" className="text-body-secondary">
-                  Laundry Space
-                </a>
-              </li>
             </ul>
           </div>
 
           <div className="col-md-3 mb-3">
-            <h5>Laundry</h5>
+            <h5>Atma Kitchen</h5>
             <ul className="list-unstyled mt-4">
               <li className="mb-2">
                 <a href="#" className="text-body-secondary">
@@ -79,7 +74,7 @@ const Footer = () => {
 
         <div className="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
           <p className="text-muted">
-            © 2023 Laundry Space, Tinar Gideon Yeriko.
+            © 2024 Atma Kitchen.
           </p>
           <ul className="list-unstyled d-flex">
             <li className="ms-3">

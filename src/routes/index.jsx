@@ -9,6 +9,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import TopNavbar from "../components/TopNavbar";
 import AdminLayout from "../layouts/AdminLayout";
 import MOLayout from "../layouts/MOLayout";
+import Order from "../pages/transaksi/Order";
 
 import Footer from "../components/footer";
 
@@ -20,9 +21,9 @@ import ShowDataResep from "../pages/admin/resep/showDataResep";
 import UpdateDataResep from "../pages/admin/resep/updateDataResep";
 import CreateDataResep from "../pages/admin/resep/createDataResep";
 
-import AdminUpdateLayanan from "../pages/admin/layanan/updateLayananPage";
-import CreateLayanan from "../pages/admin/layanan/createLayananPage";
-import ShowDataLayanan from "../pages/admin/layanan/showDataLayananPage";
+// import AdminUpdateLayanan from "../pages/admin/layanan/updateLayananPage";
+// import CreateLayanan from "../pages/admin/layanan/createLayananPage";
+// import ShowDataLayanan from "../pages/admin/layanan/showDataLayananPage";
 
 import ShowDataProduk from "../pages/admin/produk/showDataProdukPage";
 import CreateProduk from "../pages/admin/produk/createProdukPage";
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
         path: "/user/profile",
         element: <Profile />,
       },
+      {
+        path: "/user/order",
+        element: <Order />,
+      },
       // {
       //   path: "/user/wallet",
       //   element: <Wallet />,
@@ -178,18 +183,18 @@ const router = createBrowserRouter([
         path: "/admin/updateHampers",
         element: <UpdateHampersPage />,
       },
-      {
-        path: "/admin/createLayanan",
-        element: <CreateLayanan />,
-      },
-      {
-        path: "/admin/showDataLayanan",
-        element: <ShowDataLayanan />,
-      },
-      {
-        path: "/admin/updateLayanan",
-        element: <AdminUpdateLayanan />,
-      },
+      // {
+      //   path: "/admin/createLayanan",
+      //   element: <CreateLayanan />,
+      // },
+      // {
+      //   path: "/admin/showDataLayanan",
+      //   element: <ShowDataLayanan />,
+      // },
+      // {
+      //   path: "/admin/updateLayanan",
+      //   element: <AdminUpdateLayanan />,
+      // },
     ],
   },
   {

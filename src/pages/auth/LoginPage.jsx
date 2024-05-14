@@ -1,6 +1,5 @@
 import { Container } from "react-bootstrap";
 import FormLogin from "../../components/forms/FormLogin";
-import imgAH from "../../assets/images/atmahub-white.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminPageBackground from "../admin/adminPageBackground";

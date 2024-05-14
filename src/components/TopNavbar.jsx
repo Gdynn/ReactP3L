@@ -1,7 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import imgAH from "../assets/images/atmahub-white.png";
-import logo from "../assets/images/logo01.png";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -81,7 +79,8 @@ const TopNavbar = ({ routes }) => {
         <Navbar fixed="top" collapseOnSelect expand="lg" className="topNav">
           <Container>
             <Navbar.Brand onClick={() => navigate('/')}>
-              <img src={logo} alt="" style={{ height: "40px" }} />
+              {/* <img src={logo} alt="" style={{ height: "40px" }} /> */}
+              <h3 style={{cursor: "pointer"}}>ATMA KITCHEN</h3>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
@@ -91,7 +90,6 @@ const TopNavbar = ({ routes }) => {
                 <Nav.Link onClick={() => navigate('/about')} >About</Nav.Link>
               </Nav>
               <Nav>
-        
                 <Nav.Link onClick={() => ProfilePop()} >
                   Profile
                 </Nav.Link>

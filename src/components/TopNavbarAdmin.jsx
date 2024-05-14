@@ -1,7 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import imgAH from "../assets/images/atmahub-white.png";
-import logo from "../assets/images/logo01.png";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -79,22 +77,6 @@ const TopNavbar = ({ routes }) => {
             >
               Data Hampers
             </Nav.Link>
-            <NavDropdown
-              className="mx-3"
-              title="Layanan"
-              id="basic-nav-dropdown"
-            >
-              <NavDropdown.Item
-                onClick={() => navigate("/admin/showDataLayanan")}
-              >
-                Show Data Layanan
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                onClick={() => navigate("/admin/createLayanan")}
-              >
-                Create Layanan
-              </NavDropdown.Item>
-            </NavDropdown>
             <Nav className="me-auto"></Nav>
             <div className="d-flex align-items-end text-end ms-auto justify-content-center">
               <strong>ADMIN</strong>

@@ -1,7 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import imgAH from "../assets/images/atmahub-white.png";
-import logo from "../assets/images/logo01.png";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";

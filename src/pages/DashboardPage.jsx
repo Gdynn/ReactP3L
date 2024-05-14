@@ -1,26 +1,24 @@
 import { useEffect, useState } from "react";
 import {
-  Alert,
   Col,
-  Container,
   Row,
   Spinner,
-  Stack,
   Button,
+  Card
 } from "react-bootstrap";
 import { getImage } from "../api";
 import { FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "./dashboard.css";
 
-import h1Img from "../assets/images/homepage/img_home1.png";
-import h2Img from "../assets/images/homepage/img_home2.png";
-import h3Img from "../assets/images/homepage/img_home3.png";
+import h1Img from "../assets/images/homepage/Brownies.jpg";
+import h2Img from "../assets/images/homepage/Cookies.jpg";
+import h3Img from "../assets/images/homepage/LapisLegit.jpg";
 import layanan1Img from "../assets/images/homepage/imgly1.png";
 import layanan2Img from "../assets/images/homepage/imgly2.png";
 import layanan3Img from "../assets/images/homepage/imgly3.png";
 import logo1 from "../assets/images/logo_horisontal.png";
-import logo2 from "../assets/images/logo_normal.png";
+// import logo2 from "../assets/images/logo_normal.png";
 import logo3 from "../assets/images/logo_vertikal.png";
 import { GetAllLayanan } from "../apiExample/apiLayanan";
 
@@ -64,9 +62,9 @@ const DashboardPage = () => {
             <Col sm={12} md={6} lg={6} xl={6} xxl={5} className="col c-1">
               <div className="home-content1">
                 <h2 style={{ paddingRight: "15%" }}>
-                  <strong className="text-red1 t1">Laundry</strong> jadi lebih{" "}
-                  <strong className="text-blue3">Bersih</strong> dan{" "}
-                  <strong className="text-blue3">Wangi</strong>
+                  <strong className="text-red1 t1">Pesan cake, roti,</strong> {" "}
+                  <strong className="text-blue3">dan</strong> lainnya{" "}
+                  {/* <strong className="text-blue3">Wangi</strong> */}
                 </h2>
                 <p className="p1">
                   Selalu mencari tempat laundry yang tidak hanya menjaga pakaian
@@ -81,7 +79,7 @@ const DashboardPage = () => {
 
                 {isLogin ? (
                   <a href="/user/order" className="button">
-                    <Button variant="danger" className="btn-get-started mt-4" style={{width: '120px'}}>
+                    <Button variant="danger" className="btn-get-started mt-4" style={{ width: '120px' }}>
                       Order
                     </Button>
                   </a>
@@ -99,11 +97,11 @@ const DashboardPage = () => {
                 className="t2"
                 style={{ paddingRight: "15%", display: "none" }}
               >
-                <strong className="text-red1">Laundry</strong> jadi lebih{" "}
-                <strong className="text-blue3">Bersih</strong> dan{" "}
-                <strong className="text-blue3">Wangi</strong>
+                <strong className="text-red1 t1">Pesan cake, roti,</strong> {" "}
+                <strong className="text-blue3">dan</strong> lainnya{" "}
+                {/* <strong className="text-blue3">Wangi</strong> */}
               </h2>
-              <div className="img-home1">
+              <div className="Brownies">
                 {" "}
                 <img className="img-1" src={h1Img} alt="" />{" "}
               </div>
@@ -111,6 +109,22 @@ const DashboardPage = () => {
           </Row>
 
           {/* Row 2 */}
+          <div className="row justify-content-between">
+            <Card style={{ width: '18rem' }}>
+              <Card.Body>
+                <Card.Title>Lapis Legit</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">Lapis Legit</Card.Subtitle>
+                <Card.Text>
+                  Some quick example text to build on the card title and make up the
+                  bulk of the card's content.
+                </Card.Text>
+                <Card.Link href="#">Card Link</Card.Link>
+                <Card.Link href="#">Another Link</Card.Link>
+              </Card.Body>
+            </Card>
+          </div>
+
+          {/* Row 3 */}
           <Row className="r-2">
             <Col>
               <div className="home-content2">
@@ -127,7 +141,7 @@ const DashboardPage = () => {
             </Col>
           </Row>
 
-          {/* Row 3 */}
+          {/* Row 4 */}
           <Row style={{ height: "100px" }}>
             <Col>
               <div className="home-content3" style={{ marginTop: "35px" }}>
@@ -136,7 +150,7 @@ const DashboardPage = () => {
             </Col>
           </Row>
 
-          {/* Row 4 (Desktop) */}
+          {/* Row 5 (Desktop) */}
           {isLoading ? (
             <div className="text-center">
               <Spinner
@@ -170,7 +184,7 @@ const DashboardPage = () => {
             </Row>
           )}
 
-          {/* Row 4 (Mobile) */}
+          {/* Row 5 (Mobile) */}
           <Row className="d-flex row d-sm-none" style={{ height: "400px" }}>
             <div id="carouselExample" className="carousel slide">
               <div className="carousel-inner">
@@ -245,7 +259,7 @@ const DashboardPage = () => {
             </div>
           </Row>
 
-          {/* Row 5 */}
+          {/* Row 6 */}
           <Row className="row r-5" style={{ height: "auto" }}>
             <Col xxl={6} sm={6} className="c-1">
               <div className="img-home2">
@@ -254,11 +268,11 @@ const DashboardPage = () => {
             </Col>
             <Col sm={6} xxl={6} className="col-12 c-2">
               <div>
-                <img className="img-logo1" src={logo2} alt="" />
+                {/* <img className="img-logo1" src={logo2} alt="" /> */}
               </div>
               <h4 style={{ marginTop: "20px" }}>
-                <strong className="text-blue3">Laundry</strong>{" "}
-                <strong className="text-red1">Space</strong>
+                <strong className="text-blue3">Atma</strong>{" "}
+                <strong className="text-red1">Kitchen</strong>
               </h4>
               <p className="p2">
                 "Laundry Space, adalah lebih dari sekadar perusahaan laundry.
@@ -288,7 +302,7 @@ const DashboardPage = () => {
             </Col>
           </Row>
 
-          {/* Row 6 */}
+          {/* Row 7 */}
           <Row className="row r-6" style={{ height: "auto" }}>
             <Col
               sm={6}
@@ -296,9 +310,9 @@ const DashboardPage = () => {
               style={{ alignItems: "flex-start", border: "1px" }}
             >
               <div>
-                <img className="img-logo1" src={logo2} alt="" />
+                {/* <img className="img-logo1" src={logo2} alt="" /> */}
               </div>
-              <h4 style={{ marginTop: "20px" }}>
+              <h4 style={{ marginTop: "100px" }}>
                 <strong className="text-blue3">Tunggu Apa Lagi</strong>{" "}
               </h4>
               <p className="">

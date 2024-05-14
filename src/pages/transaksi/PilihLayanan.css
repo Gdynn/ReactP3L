@@ -1,0 +1,36 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.steps {
+    max-width: 45%;
+}
+
+.main {
+    background-color: rgb(250, 250, 250)
+}
+
+.cont-input {
+    padding: 20px 20px 20px 20px;
+    /* max-width: 60%; */
+}
+
+.cont-nav {
+    max-width: 60%;
+}
+
+.btn-next {
+    background-color: #014E87;
+    color: white;
+    max-width: fit-content;
+}
+
+.btn-back {
+    color: red;
+    background-color: white;
+    max-width: fit-content;
+}
+
+.btn-modal {
+    max-width: fit-content;
+}

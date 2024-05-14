@@ -21,8 +21,10 @@
     }
 
 
-    .img-home1 img {
+    .Brownies img {
         height: 450px;
+        /* margin-right: 10; */
+        /* width: 80%; */
     }
 
     .home-content1 {
@@ -75,12 +77,12 @@
     }
 
     .img-home2 img {
-        margin-top: 100px;
+        /* margin-top: 100px; */
         height: 400px;
     }
 
     .img-home3 img {
-        margin-top: 20px;
+        margin-top: 130px;
         height: 380px;
     }
 

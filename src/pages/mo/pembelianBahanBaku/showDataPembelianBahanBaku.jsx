@@ -95,14 +95,14 @@ const ShowDataPembelianBahanBaku = () => {
     const handleSearch = () => {
         setIsLoading(true);
         if (searchInput === "") {
-            setPembelian(originalData);
+            setBahan(originalData);
         } else {
-            const filteredData = originalData.filter((pengeluaran) =>
-                pengeluaran.bahan_baku.NAMA_BAHAN_BAKU
+            const filteredData = originalData.filter((bahan_baku) =>
+                bahan_baku.NAMA_BAHAN_BAKU
                     .toLowerCase()
                     .includes(searchInput.toLowerCase())
             );
-            setPembelian(filteredData);
+            setBahan(filteredData);
         }
         setIsLoading(false);
     };
