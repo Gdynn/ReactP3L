@@ -17,15 +17,20 @@ import h3Img from "../assets/images/homepage/LapisLegit.jpg";
 import layanan1Img from "../assets/images/homepage/imgly1.png";
 import layanan2Img from "../assets/images/homepage/imgly2.png";
 import layanan3Img from "../assets/images/homepage/imgly3.png";
-import logo1 from "../assets/images/logo_horisontal.png";
 // import logo2 from "../assets/images/logo_normal.png";
-import logo3 from "../assets/images/logo_vertikal.png";
-import { GetAllLayanan } from "../apiExample/apiLayanan";
+// import { GetAllLayanan } from "../apiExample/apiLayanan";
+import { GetAllCake, GetAllRoti, GetAllMinuman, GetAllTitipan } from "../api/apiProduk";
+import { GetLimitByHariIni } from "../api/apiLimitHarian";
 
 const DashboardPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [layanan, setLayanan] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [cakes, setCake] = useState([]);
+  const [rotis, setRoti] = useState([]);
+  const [minumans, setMinuman] = useState([]);
+  const [titipans, setTitipan] = useState([]);
+  const [limits, setLimit] = useState([]);
   var index = 0;
 
   useEffect(() => {
@@ -36,9 +41,38 @@ const DashboardPage = () => {
     } else {
       setIsLogin(false);
     }
-    GetAllLayanan()
+    GetAllCake()
       .then((value) => {
-        setLayanan(value);
+        setCake(value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    GetLimitByHariIni()
+      .then((value2) => {
+        setLimit(value2);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log('id produk lijmit: ', limits.produk)
+    GetAllRoti()
+      .then((value) => {
+        setRoti(value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    GetAllMinuman()
+      .then((value) => {
+        setMinuman(value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    GetAllTitipan()
+      .then((value) => {
+        setTitipan(value);
       })
       .catch((err) => {
         console.log(err);
@@ -109,19 +143,68 @@ const DashboardPage = () => {
           </Row>
 
           {/* Row 2 */}
-          <div className="row justify-content-between">
-            <Card style={{ width: '18rem' }}>
-              <Card.Body>
-                <Card.Title>Lapis Legit</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">Lapis Legit</Card.Subtitle>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up the
-                  bulk of the card's content.
-                </Card.Text>
-                <Card.Link href="#">Card Link</Card.Link>
-                <Card.Link href="#">Another Link</Card.Link>
-              </Card.Body>
-            </Card>
+          <Row className="r-2">
+            <Col>
+              <div className="home-content2">
+                <h3 className="text-center">Produk Pre-Order:</h3>
+              </div>
+            </Col>
+          </Row>
+          <div className="row justify-content-around mb-5">
+            {cakes.map((cake) => (
+              <Card style={{ width: '18rem' }}>
+                <Card.Body>
+                  <Card.Title className="mb-2"><strong>{cake.NAMA_PRODUK}</strong></Card.Title>
+                  <Card.Subtitle className="text-muted">Stok Hari ini:</Card.Subtitle>
+                  <Card.Text className="mb-2">
+                    {limits.find((limit) => limit.produk.ID_PRODUK === cake.ID_PRODUK)?.STOK_HARI_INI || '0'} Loyang
+                  </Card.Text>
+                  <Card.Subtitle className="text-muted">Quota Hari ini:</Card.Subtitle>
+                  <Card.Text className="mb-2">
+                    {limits.find((limit) => limit.produk.ID_PRODUK === cake.ID_PRODUK)?.LIMIT_KUANTITAS || '0'} Loyang
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            ))}
+          </div>
+          <div className="row justify-content-around mb-5">
+            {rotis.map((roti) => (
+              <Card style={{ width: '18rem' }}>
+                <Card.Body>
+                  <Card.Title className="mb-2"><strong>{roti.NAMA_PRODUK}</strong></Card.Title>
+                </Card.Body>
+              </Card>
+            ))}
+          </div>
+          <div className="row justify-content-around">
+            {minumans.map((minuman) => (
+              <Card style={{ width: '18rem' }}>
+                <Card.Body>
+                  <Card.Title className="mb-2"><strong>{minuman.NAMA_PRODUK}</strong></Card.Title>
+                </Card.Body>
+              </Card>
+            ))}
+          </div>
+
+          <Row className="r-2">
+            <Col>
+              <div className="home-content2">
+                <h3 className="text-center">Produk Ready Stok:</h3>
+              </div>
+            </Col>
+          </Row>
+          <div className="row justify-content-around">
+            {titipans.map((titipan) => (
+              <Card style={{ width: '18rem' }}>
+                <Card.Body>
+                  <Card.Title className="mb-2"><strong>{titipan.NAMA_PRODUK}</strong></Card.Title>
+                  <Card.Subtitle className="text-muted">Stok:</Card.Subtitle>
+                  <Card.Text>
+                    {titipan.KUANTITAS} pcs
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            ))}
           </div>
 
           {/* Row 3 */}
