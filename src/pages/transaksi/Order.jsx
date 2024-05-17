@@ -10,24 +10,19 @@ import { GetAllProduk } from "../../api/apiProduk";
 import { GetAllHampers } from "../../api/apiHampers";
 
 const Order = () => {
-    const [showJumlahLayanan, setShowJumlahLayanan] = useState({});
     const [items, setItems] = useState([]);
     const [jenisPengambilan, setJenisPengambilan] = useState([]);
-    const [layanan, setLayanan] = useState([]);
-    const [ukuran, setUkuran] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [idCreatedTransaksi, setIdCreatedTransaksi] = useState();
     const [isPending, setIsPending] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [pemesananProducts, setPemesananProducts] = useState([{ id_layanan: "", jumlah: "" }]);
-    const [pemesananHampers, setPemesananHampers] = useState([{ id_layanan: "", jumlah: "" }]);
+    const [pemesananProducts, setPemesananProducts] = useState([{ }]);
+    const [pemesananHampers, setPemesananHampers] = useState([{  }]);
     const [produks, setProduk] = useState([]);
     const [hampers, setHampers] = useState([]);
     const navigate = useNavigate();
     const [order, setOrder] = useState({
-        id_layanan: "",
-        id_jenis_pengambilan: "",
-        berat: "",
+       
     });
 
     const handleModalClose = () => {
@@ -38,19 +33,25 @@ const Order = () => {
         showDropdown();
     }, []);
 
-    const handleInputChange = (index, event) => {
+    const handleInputChange = (index, event, type) => {
         const { name, value } = event.target;
-        const newProducts = [...pemesananProducts];
-        newProducts[index][name] = value;
-        setPemesananProducts(newProducts);
+        if (type === "produk") {
+            const newProducts = [...pemesananProducts];
+            newProducts[index][name] = value;
+            setPemesananProducts(newProducts);
+        } else if (type === "hamper") {
+            const newHampers = [...pemesananHampers];
+            newHampers[index][name] = value;
+            setPemesananHampers(newHampers);
+        }
     };
 
     const addProductField = () => {
-        setPemesananProducts([...pemesananProducts, { ID_PRODUK: "", KUANTITAS: "" }]);
+        setPemesananProducts([...pemesananProducts, { id_layanan: "", jumlah: "" }]);
     };
 
     const addHampersField = () => {
-        setPemesananHampers([...pemesananHampers, { ID_HAMPERS: "", KUANTITAS: "" }]);
+        setPemesananHampers([...pemesananHampers, { id_layanan: "", jumlah: "" }]);
     };
 
     const removeProductField = () => {
@@ -77,7 +78,7 @@ const Order = () => {
 
         GetAllHampers()
             .then((response) => {
-                console.log("Produk data: ", response); // Check the structure and content of response
+                console.log("Hampers data: ", response); // Check the structure and content of response
                 setHampers(response);
             })
             .catch((err) => {
@@ -126,8 +127,8 @@ const Order = () => {
                                 <select
                                     className="form-select"
                                     name="id_layanan"
-                                    value={product.ID_PRODUK}
-                                    onChange={(e) => handleInputChange(index, e)}
+                                    value={product.id_layanan}
+                                    onChange={(e) => handleInputChange(index, e, "produk")}
                                     required
                                 >
                                     <option selected disabled value="">
@@ -144,21 +145,21 @@ const Order = () => {
                                 <input
                                     className="form-control"
                                     type="number"
-                                    name="jumlahProduk"
-                                    value={product.KUANTITAS}
-                                    onChange={(e) => handleInputChange(index, e)}
+                                    name="jumlah"
+                                    value={product.jumlah}
+                                    onChange={(e) => handleInputChange(index, e, "produk")}
                                     placeholder="Jumlah produk"
                                     required
                                 />
                             </div>
                             <div className="col-2">
                                 <span className="d-flex justify-content-start">
-                                    <strong>Harga Produk:</strong>
+                                    <strong>Harga Produk: {produk.HARGA}</strong>
                                 </span>
                             </div>
                             <div className="col-4">
                                 <span className="d-flex justify-content-start" >
-                                    <strong>Jenis Produk:</strong>
+                                    <strong>Jenis Produk: {produk.JENIS_PRODUK}</strong>
                                 </span>
                             </div>
                         </div>
@@ -184,7 +185,7 @@ const Order = () => {
                                     className="form-select"
                                     name="id_layanan"
                                     value={hamper.id_layanan}
-                                    onChange={(e) => handleInputChange(index, e)}
+                                    onChange={(e) => handleInputChange(index, e, "hamper")}
                                     required
                                 >
                                     <option selected disabled value="">
@@ -201,21 +202,21 @@ const Order = () => {
                                 <input
                                     className="form-control"
                                     type="number"
-                                    name="jumlahHampers"
+                                    name="jumlah"
                                     value={hamper.jumlah}
-                                    onChange={(e) => handleInputChange(index, e)}
-                                    placeholder="Jumlah pemesananHampers"
+                                    onChange={(e) => handleInputChange(index, e, "hamper")}
+                                    placeholder="Jumlah hampers"
                                     required
                                 />
                             </div>
                             <div className="col-2">
                                 <span className="d-flex justify-content-start">
-                                    <strong>Harga Hampers:</strong>
+                                    <strong>Harga Hampers: {hamper.HARGA}</strong>
                                 </span>
                             </div>
                             <div className="col-4">
                                 <span className="d-flex justify-content-start" >
-                                    <strong>Keterangan:</strong>
+                                    <strong>Keterangan: {hamper.KETERANGAN}</strong>
                                 </span>
                             </div>
                         </div>
@@ -239,7 +240,7 @@ const Order = () => {
                             <select
                                 className="form-select"
                                 id="pengambilan"
-                                onChange={handleInputChange}
+                                onChange={(e) => setOrder({ ...order, id_jenis_pengambilan: e.target.value })}
                                 required
                             >
                                 <option selected disabled value="">
@@ -263,7 +264,6 @@ const Order = () => {
                                 required
                             />
                         </div>
-
                     </div>
                     <div className="mt-4 d-flex justify-content-end">
                         <a href="" type="button" className="btn btn-back">
