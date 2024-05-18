@@ -9,7 +9,7 @@ export const GetAllProduk = async () => {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     });
-    console.log("response : ");
+    console.log(`response : ${response.data.data}`);
     return response.data.data;
   } catch (error) {
     throw error.response.data;
