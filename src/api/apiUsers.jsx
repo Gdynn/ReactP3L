@@ -37,7 +37,7 @@ export const GetUserByLogin = async () => {
 
 export const GetUserById = async (id) => {
   try {
-    const response = await useAxios.get(`/users/${id}`, {
+    const response = await useAxios.get(`/usersalamat/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,

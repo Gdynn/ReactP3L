@@ -9,12 +9,14 @@ import "./PilihLayanan.css";
 import { GetAllProduk } from "../../api/apiProduk";
 import { GetAllHampers } from "../../api/apiHampers";
 import { AddOrderan } from "../../api/apiPemesanan";
+import { GetUserByLogin } from "../../api/apiUsers"; // Update this import
 
 const Order = () => {
     const [pemesananProducts, setPemesananProducts] = useState([{ ID_PRODUK: "", KUANTITAS: 1, HARGA: 0, JENIS_PRODUK: "" }]);
     const [pemesananHampers, setPemesananHampers] = useState([{ ID_HAMPERS: "", KUANTITAS: 1, HARGA: 0, KETERANGAN: "" }]);
     const [produks, setProduk] = useState([]);
     const [hampers, setHampers] = useState([]);
+    const [user, setUser] = useState(null); // Inisialisasi dengan null
     const [order, setOrder] = useState({ tanggal_pengambilan: null, delivery: "", alamat: "" });
     const [isPending, setIsPending] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -34,6 +36,11 @@ const Order = () => {
 
         showDropdown();
     }, []);
+
+    useEffect(() => {
+        // Debug log to verify user data
+        console.log('User data updated:', user);
+    }, [user]);
 
     const handleInputChange = (index, event, type) => {
         const { name, value } = event.target;
@@ -123,6 +130,10 @@ const Order = () => {
             const hampersData = await GetAllHampers();
             console.log('Hampers data:', hampersData); // Log the hampers data
             setHampers(hampersData);
+
+            const userLogin = await GetUserByLogin();
+            console.log('User data:', userLogin); // Log the user data
+            setUser(userLogin); // Update to access the data correctly
         } catch (err) {
             console.error('Error loading data:', err);
             setError(err.message || 'Error loading data');
@@ -134,9 +145,17 @@ const Order = () => {
     const submitData = async (event) => {
         event.preventDefault();
         setIsPending(true);
+        
+        if (!user) {
+            console.error('User data is not loaded');
+            setIsPending(false);
+            return;
+        }
+
+        console.log('User data:', user); // Debug log
 
         const pemesananData = {
-            ID_USER: 1, // Ganti dengan ID_USER yang benar
+            ID_USER: user.ID_USER, // Ganti dengan ID_USER yang benar
             TANGGAL_AMBIL: order.tanggal_pengambilan.toISOString().split('T')[0],
             TOTAL: pemesananProducts.reduce((total, product) => total + (product.HARGA * product.KUANTITAS), 0) + pemesananHampers.reduce((total, hamper) => total + (hamper.HARGA * hamper.KUANTITAS), 0),
             DELIVERY: order.delivery,
@@ -335,7 +354,7 @@ const Order = () => {
                                 <option value="Ojol">Ojol</option>
                             </select>
                         </div>
-                        {order.delivery === 'Delivery' && (
+                        {order.delivery === 'Delivery' && user && user.ALAMAT && (
                             <div className="col-6 d-flex justify-content-start">
                                 <select
                                     className="form-select"
@@ -346,9 +365,11 @@ const Order = () => {
                                     <option selected disabled value="">
                                         Pilih Alamat
                                     </option>
-                                    <option value="alm1">Alamat 1</option>
-                                    <option value="alm2">Alamat 2</option>
-                                    <option value="alm3">Alamat 3</option>
+                                    {user.ALAMAT.map((alamat) => (
+                                        <option key={alamat.ID_ALAMAT} value={alamat.ALAMAT}>
+                                            {alamat.NAMA_ALAMAT} - {alamat.ALAMAT}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                         )}
