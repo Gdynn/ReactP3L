@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Form, Container, Spinner, Button, Modal } from "react-bootstrap";
+import { Form, Container, Spinner, Button } from "react-bootstrap";
 import { Steps } from "rsuite";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,14 +19,10 @@ const Order = () => {
     const [user, setUser] = useState(null); // Inisialisasi dengan null
     const [order, setOrder] = useState({ tanggal_pengambilan: null, delivery: "", alamat: "" });
     const [isPending, setIsPending] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [totalOrderPrice, setTotalOrderPrice] = useState(0);
     const [loading, setLoading] = useState(true); // State for loading
     const [error, setError] = useState(null); // State for error handling
     const navigate = useNavigate();
-
-    const handleModalClose = () => {
-        setShowModal(false);
-    };
 
     useEffect(() => {
         // Set default date for tanggal_pengambilan to 2 days after today
@@ -41,6 +37,13 @@ const Order = () => {
         // Debug log to verify user data
         console.log('User data updated:', user);
     }, [user]);
+
+    useEffect(() => {
+        // Calculate total order price whenever pemesananProducts or pemesananHampers changes
+        const totalProductPrice = pemesananProducts.reduce((total, product) => total + (product.HARGA * product.KUANTITAS), 0);
+        const totalHamperPrice = pemesananHampers.reduce((total, hamper) => total + (hamper.HARGA * hamper.KUANTITAS), 0);
+        setTotalOrderPrice(totalProductPrice + totalHamperPrice);
+    }, [pemesananProducts, pemesananHampers]);
 
     const handleInputChange = (index, event, type) => {
         const { name, value } = event.target;
@@ -59,6 +62,7 @@ const Order = () => {
                     newProducts[index] = {
                         ...newProducts[index],
                         HARGA: selectedProduct.HARGA,
+                        totalPrice: selectedProduct.HARGA * newProducts[index].KUANTITAS,
                         JENIS_PRODUK: selectedProduct.JENIS_PRODUK
                     };
                     console.log(`Product selected: ${selectedProduct.NAMA_PRODUK}, Harga: ${selectedProduct.HARGA}, Jenis: ${selectedProduct.JENIS_PRODUK}`); // Debug log
@@ -68,6 +72,7 @@ const Order = () => {
             }
             if (name === "KUANTITAS") {
                 newProducts[index].KUANTITAS = Math.max(1, Number(value));
+                newProducts[index].totalPrice = newProducts[index].HARGA * newProducts[index].KUANTITAS;
             }
             setPemesananProducts(newProducts);
             console.log('Updated products:', newProducts); // Debug log
@@ -83,6 +88,7 @@ const Order = () => {
                     newHampers[index] = {
                         ...newHampers[index],
                         HARGA: selectedHamper.HARGA,
+                        totalPrice: selectedHamper.HARGA * newHampers[index].KUANTITAS,
                         KETERANGAN: selectedHamper.KETERANGAN
                     };
                     console.log(`Hamper selected: ${selectedHamper.NAMA_HAMPERS}, Harga: ${selectedHamper.HARGA}`); // Debug log
@@ -92,6 +98,7 @@ const Order = () => {
             }
             if (name === "KUANTITAS") {
                 newHampers[index].KUANTITAS = Math.max(1, Number(value));
+                newHampers[index].totalPrice = newHampers[index].HARGA * newHampers[index].KUANTITAS;
             }
             setPemesananHampers(newHampers);
             console.log('Updated hampers:', newHampers); // Debug log
@@ -145,7 +152,7 @@ const Order = () => {
     const submitData = async (event) => {
         event.preventDefault();
         setIsPending(true);
-        
+
         if (!user) {
             console.error('User data is not loaded');
             setIsPending(false);
@@ -154,17 +161,25 @@ const Order = () => {
 
         console.log('User data:', user); // Debug log
 
+        // Check if at least one product or hamper is selected
+        if (pemesananProducts.length === 1 && !pemesananProducts[0].ID_PRODUK && pemesananHampers.length === 1 && !pemesananHampers[0].ID_HAMPERS) {
+            toast.error('Please select at least one product or hamper');
+            setIsPending(false);
+            return;
+        }
+
         const pemesananData = {
             ID_USER: user.ID_USER, // Ganti dengan ID_USER yang benar
             TANGGAL_AMBIL: order.tanggal_pengambilan.toISOString().split('T')[0],
             TOTAL: pemesananProducts.reduce((total, product) => total + (product.HARGA * product.KUANTITAS), 0) + pemesananHampers.reduce((total, hamper) => total + (hamper.HARGA * hamper.KUANTITAS), 0),
             DELIVERY: order.delivery,
-            products: pemesananProducts.map(product => ({
+            ALAMAT: order.alamat,
+            products: pemesananProducts.filter(product => product.ID_PRODUK).map(product => ({
                 ID_PRODUK: product.ID_PRODUK,
                 KUANTITAS: product.KUANTITAS,
                 HARGA: product.HARGA,
             })),
-            hampers: pemesananHampers.map(hamper => ({
+            hampers: pemesananHampers.filter(hamper => hamper.ID_HAMPERS).map(hamper => ({
                 ID_HAMPERS: hamper.ID_HAMPERS,
                 KUANTITAS: hamper.KUANTITAS,
                 HARGA: hamper.HARGA,
@@ -176,13 +191,14 @@ const Order = () => {
 
             if (response.status === 201) {
                 toast.success('Pemesanan berhasil disimpan');
-                setShowModal(true);
+                navigate('/user/history');
             } else {
-                const data = response.data;
-                toast.error(`Gagal menyimpan pemesanan: ${data.message}`);
+                toast.error(`Gagal menyimpan pemesanan: ${response.data.message}`);
+                console.error('Failed to save order:', response.data);
             }
         } catch (error) {
             toast.error('Gagal menyimpan pemesanan');
+            console.error('Error:', error);
         } finally {
             setIsPending(false);
         }
@@ -230,7 +246,6 @@ const Order = () => {
                                     name="ID_PRODUK"
                                     value={product.ID_PRODUK}
                                     onChange={(e) => handleInputChange(index, e, "produk")}
-                                    required
                                 >
                                     <option selected disabled value="">
                                         Pilih Produk
@@ -256,7 +271,7 @@ const Order = () => {
                             </div>
                             <div className="col-2">
                                 <span className="d-flex justify-content-start">
-                                    <strong>Harga Produk: {product.HARGA}</strong>
+                                    <strong>Harga Produk: Rp{product.totalPrice},00</strong>
                                 </span>
                             </div>
                             <div className="col-4">
@@ -288,7 +303,6 @@ const Order = () => {
                                     name="ID_HAMPERS"
                                     value={hamper.ID_HAMPERS}
                                     onChange={(e) => handleInputChange(index, e, "hamper")}
-                                    required
                                 >
                                     <option selected disabled value="">
                                         Pilih Hampers
@@ -314,7 +328,7 @@ const Order = () => {
                             </div>
                             <div className="col-2">
                                 <span className="d-flex justify-content-start">
-                                    <strong>Harga Hampers: {hamper.HARGA}</strong>
+                                    <strong>Harga Hampers: Rp{hamper.totalPrice},00</strong>
                                 </span>
                             </div>
                             <div className="col-4">
@@ -389,6 +403,11 @@ const Order = () => {
                                 required
                             />
                         </div>
+                        <div className="col-6">
+                            <span className="d-flex justify-content-end" style={{ marginRight: "250px" }}>
+                                <strong style={{ color: "green" }}>Total: Rp{totalOrderPrice},00</strong>
+                            </span>
+                        </div>
                     </div>
                     <div className="mt-4 d-flex justify-content-end">
                         <a href="" type="button" className="btn btn-back">
@@ -413,22 +432,6 @@ const Order = () => {
                     </div>
                 </Form>
             </Container>
-
-            <Modal show={showModal} onHide={handleModalClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal Success</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Berhasil Menambahkan Data Order</Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        className="btn-modal"
-                        variant="success"
-                        onClick={handleModalClose}
-                    >
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </>
     );
 };

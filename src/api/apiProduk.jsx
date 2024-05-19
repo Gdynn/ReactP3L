@@ -16,6 +16,21 @@ export const GetAllProduk = async () => {
   }
 };
 
+export const GetAllProdukLimit = async () => {
+  try {
+    const response = await useAxios.get("/produkLimit", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    console.log(`response : ${response.data.data}`);
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 export const GetAllCake = async () => {
   try {
     const response = await useAxios.get("/produkCake", {

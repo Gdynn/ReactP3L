@@ -6,6 +6,8 @@ import {
   Button,
   Card
 } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { getImage } from "../api";
 import { FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -32,6 +34,10 @@ const DashboardPage = () => {
   const [titipans, setTitipan] = useState([]);
   const [limits, setLimit] = useState([]);
   var index = 0;
+
+  const handleDateChange = (date) => {
+    console.log(date);
+  }
 
   useEffect(() => {
     setIsLoading(true);
@@ -150,6 +156,22 @@ const DashboardPage = () => {
               </div>
             </Col>
           </Row>
+          <Row className="mb-5">
+            <Col>
+              <div className="home-content3">
+                <h3 className="text-center">Select Date</h3>
+                {/* <DatePicker onChange={handleDateChange} /> */}
+                <DatePicker
+                  className="form-control"
+                  style={{ cursor: "pointer" }}
+                  name="tanggalPengambilan"
+                  onChange={handleDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Tanggal Pengambilan"
+                />
+              </div>
+            </Col>
+          </Row>
           <div className="row justify-content-around mb-5">
             {cakes.map((cake) => (
               <Card style={{ width: '18rem' }}>
@@ -163,6 +185,10 @@ const DashboardPage = () => {
                   <Card.Text className="mb-2">
                     {limits.find((limit) => limit.produk.ID_PRODUK === cake.ID_PRODUK)?.LIMIT_KUANTITAS || '0'} Loyang
                   </Card.Text>
+                  <Card.Subtitle className="text-muted">Harga:</Card.Subtitle>
+                  <Card.Text className="mb-2">
+                    Rp {cake.HARGA},00
+                  </Card.Text>
                 </Card.Body>
               </Card>
             ))}
@@ -173,6 +199,10 @@ const DashboardPage = () => {
                 <Card.Body>
                   <Card.Title className="mb-2"><strong>{roti.NAMA_PRODUK}</strong></Card.Title>
                 </Card.Body>
+                <Card.Subtitle className="text-muted">Harga:</Card.Subtitle>
+                <Card.Text className="mb-2">
+                  Rp {roti.HARGA},00
+                </Card.Text>
               </Card>
             ))}
           </div>
@@ -182,6 +212,10 @@ const DashboardPage = () => {
                 <Card.Body>
                   <Card.Title className="mb-2"><strong>{minuman.NAMA_PRODUK}</strong></Card.Title>
                 </Card.Body>
+                <Card.Subtitle className="text-muted">Harga:</Card.Subtitle>
+                <Card.Text className="mb-2">
+                  Rp {minuman.HARGA},00
+                </Card.Text>
               </Card>
             ))}
           </div>
@@ -201,6 +235,10 @@ const DashboardPage = () => {
                   <Card.Subtitle className="text-muted">Stok:</Card.Subtitle>
                   <Card.Text>
                     {titipan.KUANTITAS} pcs
+                  </Card.Text>
+                  <Card.Subtitle className="text-muted mt-2">Harga:</Card.Subtitle>
+                  <Card.Text className="mb-2">
+                    Rp {titipan.HARGA},00
                   </Card.Text>
                 </Card.Body>
               </Card>
