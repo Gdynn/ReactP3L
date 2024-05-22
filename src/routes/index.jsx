@@ -40,6 +40,13 @@ import ShowDataKaryawan from "../pages/mo/Karyawan/showDataKaryawan";
 import CreateDataKaryawan from "../pages/mo/Karyawan/createDataKaryawan";
 import UpdateDataKaryawan from "../pages/mo/Karyawan/updateDataKaryawan";
 
+import ShowDataPemesanan from "../pages/admin/pengiriman/showDataPemesanan";
+
+import ShowDataPesanan from "../pages/admin/pesanan/showDataPesanan";
+import ShowDataDaftarPesanan from "../pages/admin/daftarPesanan/showDataDaftarPesanan";
+import UpdateDataDaftarPesanan from "../pages/admin/daftarPesanan/updateDataDaftarPesanan";
+import ShowTipPesanan from "../pages/admin/tip/showPesananTip";
+
 const router = createBrowserRouter([
   {
     path: "*",
@@ -195,6 +202,26 @@ const router = createBrowserRouter([
       //   path: "/admin/updateLayanan",
       //   element: <AdminUpdateLayanan />,
       // },
+      {
+        path: "/admin/showDataPemesanan",
+        element: <ShowDataPemesanan />,
+      },
+      {
+        path: "/admin/showDataPesanan",
+        element: <ShowDataPesanan />,
+      },
+      {
+        path: "/admin/showDataDaftarPesanan",
+        element: <ShowDataDaftarPesanan />,
+      },
+      {
+        path: "/admin/updateDataDaftarPesanan",
+        element: <UpdateDataDaftarPesanan />,
+      },
+      {
+        path: "/admin/showTipPesanan",
+        element: <ShowTipPesanan />,
+      },
     ],
   },
   {

@@ -43,7 +43,7 @@ const TopNavbar = ({ routes }) => {
         <Container>
           <Navbar.Brand onClick={() => navigate("/")}>
             {/* <img src={logo} alt="" style={{ height: "40px" }} /> */}
-              <h3>ATMA KITCHEN</h3>
+            <h3>ATMA KITCHEN</h3>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -70,6 +70,30 @@ const TopNavbar = ({ routes }) => {
               onClick={() => navigate("/admin/showDataBahanBaku")}
             >
               Data Bahan Baku
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/admin/showDataPemesanan")}
+            >
+              Data Pemesanan
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/admin/showDataPesanan")}
+            >
+              Pesanan
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/admin/showDataDaftarPesanan")}
+            >
+              Daftar Pesanan Konfirmasi
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/admin/showTipPesanan")}
+            >
+              Tip Pesanan
             </Nav.Link>
             <Nav.Link
               className="mx-2"
