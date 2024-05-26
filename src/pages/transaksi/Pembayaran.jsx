@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Spinner, Button, Card, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { GetOrderanById, UploadBuktiBayar } from "../../api/apiPemesanan";
+import { GetOrderanById, UploadBuktiBayar, UpdatePemesanan } from "../../api/apiPemesanan"; // Ensure you import UpdatePemesanan
 import { GetUserById, UpdatePoin } from "../../api/apiUsers";
 import { format, differenceInCalendarDays } from "date-fns";
 import "./Payment.css";
@@ -12,7 +12,8 @@ const Payment = () => {
     const [pemesanan, setPemesanan] = useState(null);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [file, setFile] = useState(null); // State to store selected file
+    const [file, setFile] = useState(null);
+    const [pointsUsed, setPointsUsed] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -54,7 +55,15 @@ const Payment = () => {
             if (response.status === 200) {
                 toast.success("Payment proof uploaded successfully!");
 
-                const updatedPoin = totalCustomerPoints + user.POIN;
+                // Update pemesanan table with payment proof and final amount
+                const updateData = {
+                    BUKTI_BAYAR: response.data.fileUrl, // Assuming your backend returns the file URL
+                    TOTAL: finalAmount,
+                };
+
+                await UpdatePemesanan(idPemesanan, updateData);
+
+                const updatedPoin = user.POIN - pointsUsed + pointsEarned;
                 await UpdatePoin(user.ID_USER, { poin: updatedPoin });
 
                 navigate("/user/history");
@@ -81,6 +90,11 @@ const Payment = () => {
         setFile(event.target.files[0]);
     };
 
+    const handlePointsChange = (event) => {
+        const value = Math.min(Number(event.target.value), user.POIN);
+        setPointsUsed(value);
+    };
+
     const calculatePoints = (totalAmount) => {
         let points = 0;
         points += Math.floor(totalAmount / 1000000) * 200;
@@ -93,7 +107,7 @@ const Payment = () => {
 
         const today = new Date();
         const userBirthday = new Date(user.TANGGAL_LAHIR);
-        userBirthday.setFullYear(today.getFullYear()); // Set the year to this year for comparison
+        userBirthday.setFullYear(today.getFullYear());
 
         const daysDifference = differenceInCalendarDays(today, userBirthday);
 
@@ -121,14 +135,14 @@ const Payment = () => {
     };
 
     const totalOrderAmount = pemesanan.TOTAL;
+    const deliveryCharge = pemesanan.DELIVERY !== "Delivery" ? 0 : (pemesanan.JARAK < 5 ? 10000 : 10000 + (Math.floor(pemesanan.JARAK / 5) * 5000));
 
-    // Calculate delivery charge based on pemesanan.JARAK
-    const deliveryCharge = pemesanan.JARAK < 5 ? 10000 : 10000 + (Math.floor(pemesanan.JARAK / 5) * 5000);
-
-    const pointsDiscount = user.POIN * 100; // Assuming a fixed points discount
+    const pointsDiscount = pointsUsed * 100;
     const finalAmount = totalOrderAmount + deliveryCharge - pointsDiscount;
-    const pointsEarned = calculatePoints(totalOrderAmount); // Calculate points earned
-    const totalCustomerPoints = pointsEarned; // Update total points for the customer
+    const pointsEarned = calculatePoints(finalAmount);
+    const totalCustomerPoints = user.POIN - pointsUsed + pointsEarned;
+
+    const isDeliveryPending = pemesanan.DELIVERY === "Delivery" && pemesanan.JARAK === null;
 
     return (
         <>
@@ -164,18 +178,32 @@ const Payment = () => {
                             <Card.Text>
                                 <strong>Total:</strong> Rp {totalOrderAmount},00 <br />
                                 <strong>Ongkos Kirim (rad. {pemesanan.JARAK}Km):</strong> Rp {deliveryCharge},00 <br />
-                                <strong>Potongan {user.POIN} poin:</strong> - Rp {pointsDiscount},00 <br />
+                                <strong>Potongan poin:</strong>
+                                <Form.Control
+                                    type="number"
+                                    value={pointsUsed}
+                                    onChange={handlePointsChange}
+                                    min="0"
+                                    max={user.POIN}
+                                />
+                                <br />
+                                <strong>Poin dimiliki:</strong> {user.POIN} <br />
                                 <strong>Total:</strong> Rp {finalAmount},00 <br />
                             </Card.Text>
                             <Card.Text>
                                 <strong>Poin dari pesanan ini:</strong> {pointsEarned} <br />
                                 <strong>Total poin customer:</strong> {totalCustomerPoints}
                             </Card.Text>
+                            {isDeliveryPending && (
+                                <Card.Text className="text-danger">
+                                    Menunggu input jarak oleh Admin
+                                </Card.Text>
+                            )}
                             <Form.Group>
                                 <Form.Label className="mt-3">Upload Bukti Bayar</Form.Label>
                                 <Form.Control type="file" onChange={handleFileChange} />
                             </Form.Group>
-                            <Button className="mt-3" variant="primary" onClick={handlePayment}>Kirim Bukti Bayar</Button>
+                            <Button className="mt-3" variant="primary" onClick={handlePayment} disabled={isDeliveryPending}>Kirim Bukti Bayar</Button>
                         </Card.Body>
                     </Card>
                 </div>
