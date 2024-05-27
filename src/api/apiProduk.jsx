@@ -9,6 +9,81 @@ export const GetAllProduk = async () => {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     });
+    console.log(`response : ${response.data.data}`);
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const GetAllProdukLimit = async () => {
+  try {
+    const response = await useAxios.get("/produkLimit", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    console.log(`response : ${response.data.data}`);
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const GetAllCake = async () => {
+  try {
+    const response = await useAxios.get("/produkCake", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    console.log("response : ");
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const GetAllRoti = async () => {
+  try {
+    const response = await useAxios.get("/produkRoti", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    console.log("response : ");
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const GetAllMinuman = async () => {
+  try {
+    const response = await useAxios.get("/produkMinuman", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    console.log("response : ");
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const GetAllTitipan = async () => {
+  try {
+    const response = await useAxios.get("/produkTitipan", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
     console.log("response : ");
     return response.data.data;
   } catch (error) {

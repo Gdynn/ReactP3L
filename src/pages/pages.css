@@ -42,9 +42,6 @@
     padding: 20px 10% 20px 10%;
 }
 
-.btn-edit {
-}
-
 .card {
     box-shadow: 0 0 5px rgba(91, 91, 91, 0.737);
 }
@@ -618,8 +615,6 @@
         padding: 0px 6px;
         border-radius: 10px;
     }
-
-    .card_size-btn {}
 
     .card_img {
         height: auto;
