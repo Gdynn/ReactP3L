@@ -19,7 +19,7 @@ export const GetAllPemesanan = async () => {
 // Menampilkan item berdasarkan ID
 export const GetPemesananById = async (id) => {
   try {
-    const response = await useAxios.get(`/pemesanan/${id}`, {
+    const response = await useAxios.get(`/pemesananId/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -118,20 +118,38 @@ export const GetOrderanById = async (id) => {
     }
 };
 
-export const UploadBuktiBayar = async (id, data) => {
-    try {
-        const response = await useAxios.put(`/buktibayar/${id}`, data, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-        });
-        return response.data.data;
-    } catch (error) {
-        if (error.response) {
-            throw error.response.data;
-        } else {
-            throw { message: "An unexpected error occurred" };
-        }
-    }
+// export const UploadBuktiBayar = async (id, data) => {
+//     try {
+//         const response = await useAxios.put(`/buktibayar/${id}`, data, {
+//             headers: {
+//                 "Content-Type": "multipart/form-data",
+//                 Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+//             },
+//         });
+//         return response.data.data;
+//     } catch (error) {
+//         if (error.response) {
+//             throw error.response.data;
+//         } else {
+//             throw { message: "An unexpected error occurred" };
+//         }
+//     }
+// };
+
+export const UploadBuktiBayar = async (data) => {
+  try {
+      const response = await useAxios.put(`/buktibayar/${data.id}`, data, {
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+      });
+      return response.data.data;
+  } catch (error) {
+      if (error.response) {
+          throw error.response.data;
+      } else {
+          throw { message: "An unexpected error occurred" };
+      }
+  }
 };

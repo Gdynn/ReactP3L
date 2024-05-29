@@ -10,6 +10,7 @@ import "./Payment.css";
 const Payment = () => {
     const { idPemesanan } = useParams();
     const [pemesanan, setPemesanan] = useState(null);
+    const [data, setData] = useState(pemesanan);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [file, setFile] = useState(null);
@@ -40,17 +41,13 @@ const Payment = () => {
             return;
         }
 
-        const formData = new FormData();
-        formData.append("BUKTI_BAYAR", file);
-        formData.append("TOTAL", finalAmount);
-
-        // Logging form data for debugging
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
+        // const formData = new FormData();
+        // formData.append("BUKTI_BAYAR", file);
+        // formData.append("TOTAL", finalAmount);
+        console.log("data : ", data);
 
         try {
-            const response = await UploadBuktiBayar(idPemesanan, formData);
+            const response = await UploadBuktiBayar(data);
 
             if (response.status === 200) {
                 toast.success("Payment proof uploaded successfully!");
@@ -93,6 +90,7 @@ const Payment = () => {
     const handlePointsChange = (event) => {
         const value = Math.min(Number(event.target.value), user.POIN);
         setPointsUsed(value);
+        setData({ ...data, BUKTI_BAYAR: file, TOTAL: finalAmount })
     };
 
     const calculatePoints = (totalAmount) => {
