@@ -39,6 +39,12 @@ import ShowDataDaftarPesanan from "../pages/admin/daftarPesanan/showDataDaftarPe
 import UpdateDataDaftarPesanan from "../pages/admin/daftarPesanan/updateDataDaftarPesanan";
 import ShowTipPesanan from "../pages/admin/tip/showPesananTip";
 
+import ProsesPesanan from "../pages/mo/prosesPesanan/ProsesPesanan";
+
+import LaporanPenjualanProduk from "../pages/mo/laporan/LaporanPenjualanProduk";
+
+import LaporanStokBahanBaku from "../pages/mo/laporan/LaporanStokBahanBaku";
+
 const router = createBrowserRouter([
   {
     path: "*",
@@ -229,6 +235,48 @@ const router = createBrowserRouter([
       {
         path: "/mo/updateDataKaryawan",
         element: <UpdateDataKaryawan />,
+      },
+      {
+        path: "/mo/prosesPesanan",
+        element: <ProsesPesanan />,
+      },
+      {
+        path: "/mo/laporanPenjualanProduk",
+        element: <LaporanPenjualanProduk />,
+      },
+      {
+        path: "/mo/laporanStokBahanBaku",
+        element: <LaporanStokBahanBaku />,
+      },
+    ],
+  },
+  {
+    path: "/owner",
+    element: (
+      <ProtectedRoutes>
+        <UserLayout />
+      </ProtectedRoutes>
+    ),
+    children: [
+      {
+        path: "/owner",
+        element: <DashboardPage />,
+      },
+      {
+        path: "/user/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/user/order",
+        element: <Order />,
+      },
+      {
+        path: "/user/payment/:idPemesanan",
+        element: <Pembayaran />,
+      },
+      {
+        path: "/user/history",
+        element: <History />,
       },
     ],
   },

@@ -16,6 +16,51 @@ export const GetAllPemesanan = async () => {
   }
 };
 
+export const GetPemesananDiterima = async () => {
+  try {
+    const response = await useAxios.get("/pemesananditerima", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    console.log("response : ");
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const GetPemesananBahanBaku = async (id) => {
+  try {
+    const response = await useAxios.get(`/pemesananbahanbaku/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    console.log("response : ");
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const ProsesPemesanan = async (id) => {
+  try {
+    const response = await useAxios.put(`/pemesanandiproses/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    console.log("response : ");
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 // Menampilkan item berdasarkan ID
 export const GetPemesananById = async (id) => {
   try {

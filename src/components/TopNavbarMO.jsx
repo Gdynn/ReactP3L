@@ -20,7 +20,7 @@ const TopNavbar = ({ routes }) => {
     sessionStorage.removeItem("user");
     navigate("/");
   };
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const ProfilePop = () => {
     setIsPopProfile(isPopProfile == true ? false : true);
@@ -65,6 +65,28 @@ const TopNavbar = ({ routes }) => {
             >
               Data Karyawan
             </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/mo/prosesPesanan")}
+            >
+              Proses Pesanan
+            </Nav.Link>
+            <NavDropdown
+              className="mx-3"
+              title="Laporan"
+              id="basic-nav-dropdown"
+            >
+              <NavDropdown.Item
+                onClick={() => navigate("/mo/laporanPenjualanProduk")}
+              >
+                Laporan Penjualan Produk
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => navigate("/mo/laporanStokBahanBaku")}
+              >
+                Laporan Stok Bahan Baku
+              </NavDropdown.Item>
+            </NavDropdown>
             <Nav className="me-auto"></Nav>
             <div className="d-flex align-items-end text-end ms-auto justify-content-center">
               <strong>Manager Operasional</strong>
