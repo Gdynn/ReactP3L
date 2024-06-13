@@ -9,6 +9,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import TopNavbar from "../components/TopNavbar";
 import AdminLayout from "../layouts/AdminLayout";
 import MOLayout from "../layouts/MOLayout";
+import OwnerLayout from "../layouts/OwnerLayout";
 import Order from "../pages/transaksi/Order";
 import Pembayaran from "../pages/transaksi/Pembayaran";
 import History from "../pages/transaksi/HistoryPemesanan";
@@ -254,29 +255,17 @@ const router = createBrowserRouter([
     path: "/owner",
     element: (
       <ProtectedRoutes>
-        <UserLayout />
+        <OwnerLayout />
       </ProtectedRoutes>
     ),
     children: [
       {
-        path: "/owner",
-        element: <DashboardPage />,
+        path: "/owner/laporanPenjualanProduk",
+        element: <LaporanPenjualanProduk />,
       },
       {
-        path: "/user/profile",
-        element: <Profile />,
-      },
-      {
-        path: "/user/order",
-        element: <Order />,
-      },
-      {
-        path: "/user/payment/:idPemesanan",
-        element: <Pembayaran />,
-      },
-      {
-        path: "/user/history",
-        element: <History />,
+        path: "/owner/laporanStokBahanBaku",
+        element: <LaporanStokBahanBaku />,
       },
     ],
   },

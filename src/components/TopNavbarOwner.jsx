@@ -53,12 +53,12 @@ const TopNavbar = ({ routes }) => {
                             id="basic-nav-dropdown"
                         >
                             <NavDropdown.Item
-                                onClick={() => navigate("/mo/laporanPenjualanProduk")}
+                                onClick={() => navigate("/owner/laporanPenjualanProduk")}
                             >
                                 Laporan Penjualan Produk
                             </NavDropdown.Item>
                             <NavDropdown.Item
-                                onClick={() => navigate("/mo/laporanStokBahanBaku")}
+                                onClick={() => navigate("/owner/laporanStokBahanBaku")}
                             >
                                 Laporan Stok Bahan Baku
                             </NavDropdown.Item>
