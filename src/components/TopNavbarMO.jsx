@@ -65,6 +65,18 @@ const TopNavbar = ({ routes }) => {
             >
               Data Karyawan
             </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/mo/showLaporan")}
+            >
+              Data Laporan
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/mo/showLaporanBahanBaku")}
+            >
+              Data Laporan Bahan Baku
+            </Nav.Link>
             <Nav className="me-auto"></Nav>
             <div className="d-flex align-items-end text-end ms-auto justify-content-center">
               <strong>Manager Operasional</strong>

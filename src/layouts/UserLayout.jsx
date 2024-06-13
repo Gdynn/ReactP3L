@@ -14,6 +14,10 @@ const routes = [
     name: "Order",
   },
   {
+    path: "/user/StatusPesanan",
+    name: "Order Status",
+  },
+  {
     path: "/user/history",
     name: "History",
   },
