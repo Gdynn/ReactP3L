@@ -9,33 +9,26 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import TopNavbar from "../components/TopNavbar";
 import AdminLayout from "../layouts/AdminLayout";
 import MOLayout from "../layouts/MOLayout";
+import OwnerLayout from "../layouts/OwnerLayout";
 import Order from "../pages/transaksi/Order";
-
+import Pembayaran from "../pages/transaksi/Pembayaran";
+import History from "../pages/transaksi/HistoryPemesanan";
 import Footer from "../components/footer";
-
 import AdminShowUser from "../pages/admin/user/showDataUser";
 import AdminCreateUser from "../pages/admin/user/createUserPage";
 import AdminUpdateUser from "../pages/admin/user/updateUserPage";
-
 import ShowDataResep from "../pages/admin/resep/showDataResep";
 import UpdateDataResep from "../pages/admin/resep/updateDataResep";
 import CreateDataResep from "../pages/admin/resep/createDataResep";
-
-// import AdminUpdateLayanan from "../pages/admin/layanan/updateLayananPage";
-// import CreateLayanan from "../pages/admin/layanan/createLayananPage";
-// import ShowDataLayanan from "../pages/admin/layanan/showDataLayananPage";
-
 import ShowDataProduk from "../pages/admin/produk/showDataProdukPage";
 import CreateProduk from "../pages/admin/produk/createProdukPage";
 import UpdateProdukPage from "../pages/admin/produk/updateProdukPage";
 import ShowDataHampers from "../pages/admin/hampers/showDataHampersPage";
 import CreateHampers from "../pages/admin/hampers/createHampersPage";
 import UpdateHampersPage from "../pages/admin/hampers/updateHampersPage";
-
 import ShowDataPembelianBahanBaku from "../pages/mo/pembelianBahanBaku/showDataPembelianBahanBaku";
 import CreatePembelianBahanBaku from "../pages/mo/pembelianBahanBaku/createPembelianBahanBakuPage";
 import UpdatePembelianBahanBakuPage from "../pages/mo/pembelianBahanBaku/updatePembelianBahanBakuPage";
-
 import ShowDataKaryawan from "../pages/mo/Karyawan/showDataKaryawan";
 import CreateDataKaryawan from "../pages/mo/Karyawan/createDataKaryawan";
 import UpdateDataKaryawan from "../pages/mo/Karyawan/updateDataKaryawan";
@@ -57,13 +50,17 @@ import StatusOrder from "../pages/statusPesanan/showStatusPesanan";
 
 import MoLaporan from "../pages/mo/laporan/laporanPerbulan";
 import MoLaporanBahan from "../pages/mo/laporanBahanBaku/laporanBahanBaku";
+import ProsesPesanan from "../pages/mo/prosesPesanan/ProsesPesanan";
+
+import LaporanPenjualanProduk from "../pages/mo/laporan/LaporanPenjualanProduk";
+
+import LaporanStokBahanBaku from "../pages/mo/laporan/LaporanStokBahanBaku";
 
 const router = createBrowserRouter([
   {
     path: "*",
     element: <div>Routes Not Found!</div>,
   },
-
   {
     children: [
       {
@@ -72,7 +69,7 @@ const router = createBrowserRouter([
           <div className="">
             <TopNavbar />
             <DashboardPage />
-            <Footer></Footer>
+            <Footer />
           </div>
         ),
       },
@@ -84,29 +81,8 @@ const router = createBrowserRouter([
         path: "/register",
         element: <RegisterPage />,
       },
-      // {
-      //   path: "/about",
-      //   element: (
-      //     <div className="">
-      //       <TopNavbar />
-      //       <About />
-      //       <Footer></Footer>
-      //     </div>
-      //   ),
-      // },
-      // {
-      //   path: "/ourteam",
-      //   element: (
-      //     <div className="">
-      //       <TopNavbar />
-      //       <OurTeam />
-      //       <Footer></Footer>
-      //     </div>
-      //   ),
-      // },
     ],
   },
-
   {
     path: "/user",
     element: (
@@ -128,7 +104,7 @@ const router = createBrowserRouter([
         element: <Order />,
       },
       {
-        path: "/user/StatusPesanan",
+       path: "/user/StatusPesanan",
         element: <StatusOrder />,
       },
       // {
@@ -151,7 +127,15 @@ const router = createBrowserRouter([
       //   path: "/user/test",
       //   element: <tampilImage/>
       // }
-    ],
+     {
+        path: "/user/payment/:idPemesanan",
+        element: <Pembayaran />,
+      },
+      {
+        path: "/user/history",
+        element: <History />,
+      },
+   ],
   },
   {
     path: "/admin",
@@ -304,16 +288,47 @@ const router = createBrowserRouter([
         element: <UpdateDataKaryawan />,
       },
       {
-        path: "/mo/showLaporan",
+       path: "/mo/showLaporan",
         element: <MoLaporan />,
       },
       {
         path: "/mo/showLaporanBahanBaku",
         element: <MoLaporanBahan />,
       },
+      {
+        path: "/mo/prosesPesanan",
+        element: <ProsesPesanan />,
+      },
+      {
+        path: "/mo/laporanPenjualanProduk",
+        element: <LaporanPenjualanProduk />,
+      },
+      {
+        path: "/mo/laporanStokBahanBaku",
+        element: <LaporanStokBahanBaku />,
+      },
+    ],
+  },
+  {
+    path: "/owner",
+    element: (
+      <ProtectedRoutes>
+        <OwnerLayout />
+      </ProtectedRoutes>
+    ),
+    children: [
+      {
+        path: "/owner/laporanPenjualanProduk",
+        element: <LaporanPenjualanProduk />,
+      },
+      {
+        path: "/owner/laporanStokBahanBaku",
+        element: <LaporanStokBahanBaku />,
+     },
     ],
   },
 ]);
+
 const AppRouter = () => {
   return (
     <>
@@ -333,4 +348,5 @@ const AppRouter = () => {
     </>
   );
 };
+
 export default AppRouter;

@@ -1,81 +1,203 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Form, Container, Spinner, Button, Modal } from "react-bootstrap";
+import { Form, Container, Spinner, Button } from "react-bootstrap";
 import { Steps } from "rsuite";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./PilihLayanan.css";
+import { GetAllProduk } from "../../api/apiProduk";
+import { GetAllHampers } from "../../api/apiHampers";
+import { AddOrderan } from "../../api/apiPemesanan";
+import { GetUserByLogin } from "../../api/apiUsers";
 
 const Order = () => {
-    const [showJumlahLayanan, setShowJumlahLayanan] = useState({});
-    const [items, setItems] = useState([]);
-    const [jenisPengambilan, setJenisPengambilan] = useState([]);
-    const [layanan, setLayanan] = useState([]);
-    const [selectedItems, setSelectedItems] = useState([]);
-    const [idCreatedTransaksi, setIdCreatedTransaksi] = useState();
+    const [pemesananProducts, setPemesananProducts] = useState([{ ID_PRODUK: "", KUANTITAS: 1, HARGA: 0, JENIS_PRODUK: "" }]);
+    const [pemesananHampers, setPemesananHampers] = useState([{ ID_HAMPERS: "", KUANTITAS: 1, HARGA: 0, KETERANGAN: "" }]);
+    const [produks, setProduk] = useState([]);
+    const [hampers, setHampers] = useState([]);
+    const [user, setUser] = useState(null);
+    const [order, setOrder] = useState({ tanggal_pengambilan: null, delivery: "", alamat: "" });
     const [isPending, setIsPending] = useState(false);
-    const [showModal, setShowModal] = useState(false);
-    const [products, setProducts] = useState([{ id_layanan: "", jumlah: "" }]);
-    const [hampers, setHampers] = useState([{ id_layanan: "", jumlah: "" }]);
+    const [totalOrderPrice, setTotalOrderPrice] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const [order, setOrder] = useState({
-        id_layanan: "",
-        id_jenis_pengambilan: "",
-        berat: "",
-    });
-
-    const handleModalClose = () => {
-        setShowModal(false);
-    };
 
     useEffect(() => {
-        // Fetch items, jenisPengambilan, layanan here
+        const defaultDate = new Date();
+        defaultDate.setDate(defaultDate.getDate() + 2);
+        setOrder(prevOrder => ({ ...prevOrder, tanggal_pengambilan: defaultDate }));
+        showDropdown();
     }, []);
 
-    const handleInputChange = (index, event) => {
+    useEffect(() => {
+        if (order.delivery !== "Delivery") {
+            setOrder(prevOrder => ({ ...prevOrder, alamat: "" }));
+        }
+    }, [order.delivery]);
+
+    useEffect(() => {
+        console.log('User data updated:', user);
+    }, [user]);
+
+    useEffect(() => {
+        const totalProductPrice = pemesananProducts.reduce((total, product) => total + (product.HARGA * product.KUANTITAS), 0);
+        const totalHamperPrice = pemesananHampers.reduce((total, hamper) => total + (hamper.HARGA * hamper.KUANTITAS), 0);
+        setTotalOrderPrice(totalProductPrice + totalHamperPrice);
+    }, [pemesananProducts, pemesananHampers]);
+
+    const handleInputChange = (index, event, type) => {
         const { name, value } = event.target;
-        const newProducts = [...products];
-        newProducts[index][name] = value;
-        setProducts(newProducts);
+        if (type === "produk") {
+            const newProducts = [...pemesananProducts];
+            newProducts[index][name] = value;
+
+            if (name === "ID_PRODUK") {
+                const selectedProduct = produks.find(produk => produk.ID_PRODUK === Number(value));
+                if (selectedProduct) {
+                    newProducts[index] = {
+                        ...newProducts[index],
+                        HARGA: selectedProduct.HARGA,
+                        totalPrice: selectedProduct.HARGA * newProducts[index].KUANTITAS,
+                        JENIS_PRODUK: selectedProduct.JENIS_PRODUK
+                    };
+                }
+            }
+            if (name === "KUANTITAS") {
+                newProducts[index].KUANTITAS = Math.max(1, Number(value));
+                newProducts[index].totalPrice = newProducts[index].HARGA * newProducts[index].KUANTITAS;
+            }
+            setPemesananProducts(newProducts);
+        } else if (type === "hamper") {
+            const newHampers = [...pemesananHampers];
+            newHampers[index][name] = value;
+
+            if (name === "ID_HAMPERS") {
+                const selectedHamper = hampers.find(hamper => hamper.ID_HAMPERS === Number(value));
+                if (selectedHamper) {
+                    newHampers[index] = {
+                        ...newHampers[index],
+                        HARGA: selectedHamper.HARGA,
+                        totalPrice: selectedHamper.HARGA * newHampers[index].KUANTITAS,
+                        KETERANGAN: selectedHamper.KETERANGAN
+                    };
+                }
+            }
+            if (name === "KUANTITAS") {
+                newHampers[index].KUANTITAS = Math.max(1, Number(value));
+                newHampers[index].totalPrice = newHampers[index].HARGA * newHampers[index].KUANTITAS;
+            }
+            setPemesananHampers(newHampers);
+        }
     };
 
     const addProductField = () => {
-        setProducts([...products, { id_layanan: "", jumlah: "" }]);
+        setPemesananProducts([...pemesananProducts, { ID_PRODUK: "", KUANTITAS: 1, HARGA: 0, JENIS_PRODUK: "" }]);
     };
 
     const addHampersField = () => {
-        setHampers([...hampers, { id_layanan: "", jumlah: "" }]);
+        setPemesananHampers([...pemesananHampers, { ID_HAMPERS: "", KUANTITAS: 1, HARGA: 0, KETERANGAN: "" }]);
     };
 
     const removeProductField = () => {
-        if (products.length > 1) {
-            setProducts(products.slice(0, -1));
+        if (pemesananProducts.length > 1) {
+            setPemesananProducts(prevState => prevState.slice(0, -1));
         }
     };
 
     const removeHampersField = () => {
-        if (hampers.length > 1) {
-            setHampers(hampers.slice(0, -1));
+        if (pemesananHampers.length > 1) {
+            setPemesananHampers(prevState => prevState.slice(0, -1));
+        }
+    };
+
+    const showDropdown = async () => {
+        try {
+            setLoading(true);
+            const produkData = await GetAllProduk();
+            setProduk(produkData);
+
+            const hampersData = await GetAllHampers();
+            setHampers(hampersData);
+
+            const userLogin = await GetUserByLogin();
+            setUser(userLogin);
+        } catch (err) {
+            console.error('Error loading data:', err);
+            setError(err.message || 'Error loading data');
+        } finally {
+            setLoading(false);
         }
     };
 
     const submitData = async (event) => {
         event.preventDefault();
         setIsPending(true);
-        // Submit data logic here
-        setIsPending(false);
-        setShowModal(true);
+
+        if (!user) {
+            console.error('User data is not loaded');
+            setIsPending(false);
+            return;
+        }
+
+        if (pemesananProducts.length === 1 && !pemesananProducts[0].ID_PRODUK && pemesananHampers.length === 1 && !pemesananHampers[0].ID_HAMPERS) {
+            toast.error('Please select at least one product or hamper');
+            setIsPending(false);
+            return;
+        }
+
+        const pemesananData = {
+            ID_USER: user.ID_USER,
+            TANGGAL_AMBIL: order.tanggal_pengambilan.toISOString().split('T')[0],
+            TOTAL: pemesananProducts.reduce((total, product) => total + (product.HARGA * product.KUANTITAS), 0) + pemesananHampers.reduce((total, hamper) => total + (hamper.HARGA * hamper.KUANTITAS), 0),
+            DELIVERY: order.delivery,
+            ALAMAT: order.alamat,
+            products: pemesananProducts.filter(product => product.ID_PRODUK).map(product => ({
+                ID_PRODUK: product.ID_PRODUK,
+                KUANTITAS: product.KUANTITAS,
+                HARGA: product.HARGA,
+            })),
+            hampers: pemesananHampers.filter(hamper => hamper.ID_HAMPERS).map(hamper => ({
+                ID_HAMPERS: hamper.ID_HAMPERS,
+                KUANTITAS: hamper.KUANTITAS,
+                HARGA: hamper.HARGA,
+            })),
+        };
+
+        try {
+            const response = await AddOrderan(pemesananData);
+
+            if (response.status === 201) {
+                toast.success('Pemesanan berhasil disimpan');
+                navigate('/user/history');
+            } else {
+                toast.error(`Gagal menyimpan pemesanan: ${response.data.message}`);
+                console.error('Failed to save order:', response.data);
+            }
+        } catch (error) {
+            toast.error('Gagal menyimpan pemesanan');
+            console.error('Error:', error);
+        } finally {
+            setIsPending(false);
+        }
     };
 
-    const handleBerikutnyaClick = async () => {
-        // Navigate to next page logic here
-    };
+    const minDate = new Date();
+    minDate.setDate(minDate.getDate() + 2);
 
-    if (!items) {
+    if (loading) {
         return (
             <div className="d-flex justify-content-center align-items-center">
                 <Spinner animation="border" variant="primary" />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="d-flex justify-content-center align-items-center">
+                <p>Error: {error}</p>
             </div>
         );
     }
@@ -95,22 +217,21 @@ const Order = () => {
                     </h3>
                 </div>
                 <Form onSubmit={submitData}>
-                    {products.map((product, index) => (
+                    {pemesananProducts.map((product, index) => (
                         <div className="row mt-5" key={index}>
                             <div className="col-4 cont-input-layanan">
                                 <select
                                     className="form-select"
-                                    name="id_layanan"
-                                    value={product.id_layanan}
-                                    onChange={(e) => handleInputChange(index, e)}
-                                    required
+                                    name="ID_PRODUK"
+                                    value={product.ID_PRODUK}
+                                    onChange={(e) => handleInputChange(index, e, "produk")}
                                 >
                                     <option selected disabled value="">
                                         Pilih Produk
                                     </option>
-                                    {layanan.map((layanan) => (
-                                        <option key={layanan.id_layanan} value={layanan.id_layanan}>
-                                            {layanan.nama_layanan}
+                                    {produks && produks.length > 0 && produks.map((produk) => (
+                                        <option key={produk.ID_PRODUK} value={produk.ID_PRODUK}>
+                                            {produk.NAMA_PRODUK}
                                         </option>
                                     ))}
                                 </select>
@@ -119,21 +240,22 @@ const Order = () => {
                                 <input
                                     className="form-control"
                                     type="number"
-                                    name="jumlahProduk"
-                                    value={product.jumlah}
-                                    onChange={(e) => handleInputChange(index, e)}
+                                    name="KUANTITAS"
+                                    value={product.KUANTITAS}
+                                    onChange={(e) => handleInputChange(index, e, "produk")}
                                     placeholder="Jumlah produk"
                                     required
+                                    min={1}
                                 />
                             </div>
                             <div className="col-2">
                                 <span className="d-flex justify-content-start">
-                                    <strong>Harga Produk:</strong>
+                                    <strong>Harga Produk: Rp{product.totalPrice},00</strong>
                                 </span>
                             </div>
                             <div className="col-4">
-                                <span className="d-flex justify-content-start" >
-                                    <strong>Jenis Produk:</strong>
+                                <span className="d-flex justify-content-start">
+                                    <strong>Jenis Produk: {product.JENIS_PRODUK}</strong>
                                 </span>
                             </div>
                         </div>
@@ -144,30 +266,29 @@ const Order = () => {
                                 <span>Tambah Produk Lain</span>
                             </Button>
                         </div>
-                        {products.length > 1 && (
-                            <div className="col-3">
-                                <Button type="button" className="btn btn-danger d-flex justify-content-end" onClick={removeProductField}>
+                        {pemesananProducts.length > 1 && (
+                            <div className="col-3 d-flex justify-content-end">
+                                <Button type="button" className="btn btn-danger" onClick={removeProductField}>
                                     <span>Gajadi Tambah Produk</span>
                                 </Button>
                             </div>
                         )}
                     </div>
-                    {hampers.map((hamper, index) => (
+                    {pemesananHampers.map((hamper, index) => (
                         <div className="row mt-5" key={index}>
                             <div className="col-4 cont-input-layanan">
                                 <select
                                     className="form-select"
-                                    name="id_layanan"
-                                    value={hamper.id_layanan}
-                                    onChange={(e) => handleInputChange(index, e)}
-                                    required
+                                    name="ID_HAMPERS"
+                                    value={hamper.ID_HAMPERS}
+                                    onChange={(e) => handleInputChange(index, e, "hamper")}
                                 >
                                     <option selected disabled value="">
                                         Pilih Hampers
                                     </option>
-                                    {layanan.map((layanan) => (
-                                        <option key={layanan.id_layanan} value={layanan.id_layanan}>
-                                            {layanan.nama_layanan}
+                                    {hampers && hampers.length > 0 && hampers.map((h) => (
+                                        <option key={h.ID_HAMPERS} value={h.ID_HAMPERS}>
+                                            {h.NAMA_HAMPERS}
                                         </option>
                                     ))}
                                 </select>
@@ -176,21 +297,22 @@ const Order = () => {
                                 <input
                                     className="form-control"
                                     type="number"
-                                    name="jumlahHampers"
-                                    value={hamper.jumlah}
-                                    onChange={(e) => handleInputChange(index, e)}
+                                    name="KUANTITAS"
+                                    value={hamper.KUANTITAS}
+                                    onChange={(e) => handleInputChange(index, e, "hamper")}
                                     placeholder="Jumlah hampers"
                                     required
+                                    min={1}
                                 />
                             </div>
                             <div className="col-2">
                                 <span className="d-flex justify-content-start">
-                                    <strong>Harga Hampers:</strong>
+                                    <strong>Harga Hampers: Rp{hamper.totalPrice},00</strong>
                                 </span>
                             </div>
                             <div className="col-4">
-                                <span className="d-flex justify-content-start" >
-                                    <strong>Keterangan:</strong>
+                                <span className="d-flex justify-content-start">
+                                    <strong>Keterangan: {hamper.KETERANGAN}</strong>
                                 </span>
                             </div>
                         </div>
@@ -201,20 +323,20 @@ const Order = () => {
                                 <span>Tambah Hampers Lain</span>
                             </Button>
                         </div>
-                        {hampers.length > 1 && (
-                            <div className="col-3">
-                                <Button type="button" className="btn btn-danger d-flex justify-content-end" onClick={removeHampersField}>
+                        {pemesananHampers.length > 1 && (
+                            <div className="col-3 d-flex justify-content-end">
+                                <Button type="button" className="btn btn-danger" onClick={removeHampersField}>
                                     <span>Gajadi Tambah Hampers</span>
                                 </Button>
                             </div>
                         )}
                     </div>
-                    <div className="row mt-3">
+                    <div className="row mt-5">
                         <div className="col-6">
                             <select
                                 className="form-select"
                                 id="pengambilan"
-                                onChange={handleInputChange}
+                                onChange={(e) => setOrder({ ...order, delivery: e.target.value })}
                                 required
                             >
                                 <option selected disabled value="">
@@ -222,20 +344,51 @@ const Order = () => {
                                 </option>
                                 <option value="Delivery">Delivery</option>
                                 <option value="Pickup">Pickup</option>
+                                <option value="Ojol">Ojol</option>
                             </select>
                         </div>
-                        <div className="col-6">
+                        {order.delivery === 'Delivery' && user && user.ALAMAT && (
+                            <div className="col-6 d-flex justify-content-start">
+                                <select
+                                    className="form-select"
+                                    id="alamat"
+                                    value={order.alamat} // Ensure the value is controlled
+                                    onChange={(e) => setOrder({ ...order, alamat: e.target.value })}
+                                    required
+                                >
+                                    <option selected disabled value="">
+                                        Pilih Alamat
+                                    </option>
+                                    {user.ALAMAT.map((alamat) => (
+                                        <option key={alamat.ID_ALAMAT} value={alamat.ALAMAT}>
+                                            {alamat.NAMA_ALAMAT} - {alamat.ALAMAT}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+                    </div>
+                    <div className="row mt-5">
+                        <div className="col-6 d-flex justify-content-start">
+                            <label htmlFor="tanggalPengambilan" style={{ marginRight: "25px" }}><strong>Tanggal Pengambilan</strong></label>
                             <DatePicker
-                                className="form-control d-flex justify-content-start"
+                                className="form-control"
+                                style={{ cursor: "pointer" }}
+                                name="tanggalPengambilan"
                                 selected={order.tanggal_pengambilan}
                                 onChange={(date) => setOrder({ ...order, tanggal_pengambilan: date })}
                                 dateFormat="dd/MM/yyyy"
-                                placeholderText="Select Date"
-                                minDate={new Date()}
+                                placeholderText="Tanggal Pengambilan"
+                                minDate={minDate}
                                 required
+                                onKeyDown={(e) => e.preventDefault()} // Prevent keyboard input
                             />
                         </div>
-
+                        <div className="col-6">
+                            <span className="d-flex justify-content-end" style={{ marginRight: "250px" }}>
+                                <strong style={{ color: "green" }}>Total: Rp{totalOrderPrice},00</strong>
+                            </span>
+                        </div>
                     </div>
                     <div className="mt-4 d-flex justify-content-end">
                         <a href="" type="button" className="btn btn-back">
@@ -260,22 +413,6 @@ const Order = () => {
                     </div>
                 </Form>
             </Container>
-
-            <Modal show={showModal} onHide={handleModalClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal Success</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Berhasil Menambahkan Data Order</Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        className="btn-modal"
-                        variant="success"
-                        onClick={handleModalClose}
-                    >
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </>
     );
 };

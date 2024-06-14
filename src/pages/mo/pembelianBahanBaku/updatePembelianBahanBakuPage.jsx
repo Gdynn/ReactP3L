@@ -59,25 +59,6 @@ const UpdatePembelianBahanBakuPage = ({ pengeluaran, onClose }) => {
         }
     };
 
-    // const submitData = (event) => {
-    //     event.preventDefault();
-    //     setIsPending(true);
-    //     console.log("tes: ", data);
-    //     console.log("tes id pembelian: ", data.ID_PEMBELIAN);
-    //     console.log("tes id pengeluaran: ", data.ID_PENGELUARAN);
-    //     UpdatePembelianBahanBaku(data.pembelian_bahan_baku.ID_PEMBELIAN, data)
-    //     UpdateDetailPengeluaran(data.ID_DETAIL_PENGELUARAN, data)
-    //         .then((response) => {
-    //             setIsPending(false);
-    //             toast.success(response.message);
-    //             handleClose();
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //             setIsPending(false);
-    //             toast.dark(err.message);
-    //         });
-    // };
     const submitData = async (event) => {
         event.preventDefault();
         setIsPending(true);
@@ -100,10 +81,6 @@ const UpdatePembelianBahanBakuPage = ({ pengeluaran, onClose }) => {
         }
     };
     
-    
-    // useEffect(() => {
-    //     showBahan();
-    // }, []);
     useEffect(() => {
         showBahan();
         setData({
@@ -113,7 +90,6 @@ const UpdatePembelianBahanBakuPage = ({ pengeluaran, onClose }) => {
         });
     }, [pengeluaran]);
     
-
     return (
         <>
             <Button

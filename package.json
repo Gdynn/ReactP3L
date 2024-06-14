@@ -21,6 +21,8 @@
     "chart.js": "^4.4.3",
     "date-fns": "^3.6.0",
     "firebase": "^10.12.2",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
