@@ -1,9 +1,9 @@
-mport useAxios from "../api"; // Adjust the path according to your project structure
+import useAxios from "../api"; // Adjust the path according to your project structure
 
 // Fetch all pickup pesanan
-export const GetAllLaporan = async () => {
+export const GetAllLaporanBahan = async () => {
   try {
-    const response = await useAxios.get("/monthlysales", {
+    const response = await useAxios.get("/pengeluaran", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -15,25 +15,10 @@ export const GetAllLaporan = async () => {
   }
 };
 
-export const GetPenjualanBulanan = async (bulan, tahun) => {
-  try {
-    const response = await useAxios.get(`/laporan-penjualan-bulanan/${bulan}/${tahun}`, {
-     headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
-    });
-   console.log("response : ", response.data);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
-};
-
 // Fetch pickup pesanan by ID
-export const GetLaporanById = async (id) => {
+export const GetLaporanBahanById = async (id) => {
   try {
-    const response = await useAxios.get(`/monthlysales/${id}`, {
+    const response = await useAxios.get(`/pengeluaran/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -46,9 +31,9 @@ export const GetLaporanById = async (id) => {
 };
 
 // Add new pickup pesanan
-export const AddLaporan = async (data) => {
+export const AddLaporanBahan = async (data) => {
   try {
-    const response = await useAxios.post("/monthlysales", data, {
+    const response = await useAxios.post("/pengeluaran", data, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -61,9 +46,9 @@ export const AddLaporan = async (data) => {
 };
 
 // Update pickup pesanan by ID
-export const UpdateLaporan = async (id, data) => {
+export const UpdateLaporanBahan = async (id, data) => {
   try {
-    const response = await useAxios.put(`/monthlysales/${id}`, data, {
+    const response = await useAxios.put(`/pengeluaran/${id}`, data, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -76,9 +61,9 @@ export const UpdateLaporan = async (id, data) => {
 };
 
 // Delete pickup pesanan by ID
-export const DeleteLaporan = async (id) => {
+export const DeleteLaporanBahan = async (id) => {
   try {
-    const response = await useAxios.delete(`/monthlysales/${id}`, {
+    const response = await useAxios.delete(`/pengeluaran/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,

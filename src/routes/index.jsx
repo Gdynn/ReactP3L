@@ -40,6 +40,16 @@ import ShowDataDaftarPesanan from "../pages/admin/daftarPesanan/showDataDaftarPe
 import UpdateDataDaftarPesanan from "../pages/admin/daftarPesanan/updateDataDaftarPesanan";
 import ShowTipPesanan from "../pages/admin/tip/showPesananTip";
 
+import UpdateDataProsesPesanan from "../pages/admin/prosesPesanan/updateDataProsesPesanan";
+import ShowDataProsesPesanan from "../pages/admin/prosesPesanan/showDataProsesPesanan";
+
+import UpdateDataDiprosesPesanan from "../pages/admin/pesananYangDiproses/updateDataDiprosesPesanan";
+import ShowDataDiprosesPesanan from "../pages/admin/pesananYangDiproses/showDataDiprosesPesanan";
+
+import StatusOrder from "../pages/statusPesanan/showStatusPesanan";
+
+import MoLaporan from "../pages/mo/laporan/laporanPerbulan";
+import MoLaporanBahan from "../pages/mo/laporanBahanBaku/laporanBahanBaku";
 import ProsesPesanan from "../pages/mo/prosesPesanan/ProsesPesanan";
 
 import LaporanPenjualanProduk from "../pages/mo/laporan/LaporanPenjualanProduk";
@@ -94,6 +104,30 @@ const router = createBrowserRouter([
         element: <Order />,
       },
       {
+       path: "/user/StatusPesanan",
+        element: <StatusOrder />,
+      },
+      // {
+      //   path: "/user/wallet",
+      //   element: <Wallet />,
+      // },
+      // {
+      //   path: "/user/payment",
+      //   element: <Payment />,
+      // },
+      // {
+      //   path: "/user/order",
+      //   element: <Order />,
+      // },
+      // {
+      //   path: "/user/history",
+      //   element: <History />,
+      // },
+      // {
+      //   path: "/user/test",
+      //   element: <tampilImage/>
+      // }
+     {
         path: "/user/payment/:idPemesanan",
         element: <Pembayaran />,
       },
@@ -101,7 +135,7 @@ const router = createBrowserRouter([
         path: "/user/history",
         element: <History />,
       },
-    ],
+   ],
   },
   {
     path: "/admin",
@@ -187,6 +221,22 @@ const router = createBrowserRouter([
         path: "/admin/showTipPesanan",
         element: <ShowTipPesanan />,
       },
+      {
+        path: "/admin/updateDataProsesPesanan",
+        element: <UpdateDataProsesPesanan />,
+      },
+      {
+        path: "/admin/showDataProsesPesanan",
+        element: <ShowDataProsesPesanan />,
+      },
+      {
+        path: "/admin/showDataDiprosesPesanan",
+        element: <ShowDataDiprosesPesanan />,
+      },
+      {
+        path: "/admin/updateDataDiprosesPesanan",
+        element: <UpdateDataDiprosesPesanan />,
+      },
     ],
   },
   {
@@ -238,6 +288,14 @@ const router = createBrowserRouter([
         element: <UpdateDataKaryawan />,
       },
       {
+       path: "/mo/showLaporan",
+        element: <MoLaporan />,
+      },
+      {
+        path: "/mo/showLaporanBahanBaku",
+        element: <MoLaporanBahan />,
+      },
+      {
         path: "/mo/prosesPesanan",
         element: <ProsesPesanan />,
       },
@@ -266,7 +324,7 @@ const router = createBrowserRouter([
       {
         path: "/owner/laporanStokBahanBaku",
         element: <LaporanStokBahanBaku />,
-      },
+     },
     ],
   },
 ]);

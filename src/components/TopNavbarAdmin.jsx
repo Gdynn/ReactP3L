@@ -97,6 +97,18 @@ const TopNavbar = ({ routes }) => {
             </Nav.Link>
             <Nav.Link
               className="mx-2"
+              onClick={() => navigate("/admin/showDataProsesPesanan")}
+            >
+              Proses Pesanan
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
+              onClick={() => navigate("/admin/showDataDiprosesPesanan")}
+            >
+              Pesanan Yang Sudah Diproses
+            </Nav.Link>
+            <Nav.Link
+              className="mx-2"
               onClick={() => navigate("/admin/showDataHampers")}
             >
               Data Hampers

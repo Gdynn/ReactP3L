@@ -1,39 +1,24 @@
-mport useAxios from "../api"; // Adjust the path according to your project structure
+import useAxios from "../api"; // Adjust the path according to your project structure
 
 // Fetch all pickup pesanan
-export const GetAllLaporan = async () => {
+export const GetAllProsesPesanan = async () => {
   try {
-    const response = await useAxios.get("/monthlysales", {
+    const response = await useAxios.get("/pickuppesanan", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     });
-    return response.data; // Pastikan respons datanya diambil di sini
-  } catch (error) {
-    throw error.response.data;
-  }
-};
-
-export const GetPenjualanBulanan = async (bulan, tahun) => {
-  try {
-    const response = await useAxios.get(`/laporan-penjualan-bulanan/${bulan}/${tahun}`, {
-     headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
-    });
-   console.log("response : ", response.data);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     throw error.response.data;
   }
 };
 
 // Fetch pickup pesanan by ID
-export const GetLaporanById = async (id) => {
+export const GetProsesPesananById = async (id) => {
   try {
-    const response = await useAxios.get(`/monthlysales/${id}`, {
+    const response = await useAxios.get(`/pickuppesanan/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -46,9 +31,9 @@ export const GetLaporanById = async (id) => {
 };
 
 // Add new pickup pesanan
-export const AddLaporan = async (data) => {
+export const AddProsesPesanan = async (data) => {
   try {
-    const response = await useAxios.post("/monthlysales", data, {
+    const response = await useAxios.post("/pickuppesanan", data, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -61,9 +46,9 @@ export const AddLaporan = async (data) => {
 };
 
 // Update pickup pesanan by ID
-export const UpdateLaporan = async (id, data) => {
+export const UpdateDiprosesPesanan = async (id, data) => {
   try {
-    const response = await useAxios.put(`/monthlysales/${id}`, data, {
+    const response = await useAxios.put(`/pickuppesanan/${id}`, data, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -76,9 +61,9 @@ export const UpdateLaporan = async (id, data) => {
 };
 
 // Delete pickup pesanan by ID
-export const DeleteLaporan = async (id) => {
+export const DeleteProsesPesanan = async (id) => {
   try {
-    const response = await useAxios.delete(`/monthlysales/${id}`, {
+    const response = await useAxios.delete(`/pickuppesanan/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,

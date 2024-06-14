@@ -86,8 +86,18 @@ const TopNavbar = ({ routes }) => {
               >
                 Laporan Stok Bahan Baku
               </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => navigate("/mo/showLaporan")}
+              >
+                Data Laporan
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => navigate("/mo/showLaporanBahanBaku")}
+              >
+                Data Laporan Bahan Baku
+              </NavDropdown.Item>
             </NavDropdown>
-            <Nav className="me-auto"></Nav>
+           <Nav className="me-auto"></Nav>
             <div className="d-flex align-items-end text-end ms-auto justify-content-center">
               <strong>Manager Operasional</strong>
             </div>

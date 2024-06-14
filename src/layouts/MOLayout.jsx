@@ -17,7 +17,14 @@ const routes = [
     path: "/user/history",
     name: "History",
   },
-
+  {
+    path: "/mo/laporan",
+    name: "Laporan",
+  },
+  {
+    path: "/mo/laporanbahanbaku",
+    name: "Laporan Bahan Baku",
+  },
 ];
 const AdminLayout = ({ children }) => {
   return (
